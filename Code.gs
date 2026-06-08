@@ -40,9 +40,25 @@ function doPost(e) {
   }
 }
 
-function doGet() {
+function doGet(e) {
+  const action = e && e.parameter ? e.parameter.action : "";
+  const callback = e && e.parameter ? e.parameter.callback : "";
+  let response;
+
+  if (action === "results") {
+    response = getResults_();
+  } else {
+    response = { status: "ok", message: "Voting web app is deployed." };
+  }
+
+  if (callback) {
+    return ContentService
+      .createTextOutput(callback + "(" + JSON.stringify(response) + ");")
+      .setMimeType(ContentService.MimeType.JAVASCRIPT);
+  }
+
   return ContentService
-    .createTextOutput(JSON.stringify({ status: "ok", message: "Voting web app is deployed." }))
+    .createTextOutput(JSON.stringify(response))
     .setMimeType(ContentService.MimeType.JSON);
 }
 
@@ -134,3 +150,70 @@ function getColumnLetter_(columnNumber) {
 
   return letter;
 }
+
+function getResults_() {
+  const spreadsheet = SpreadsheetApp.openById(SPREADSHEET_ID);
+  const sheets = spreadsheet.getSheets();
+  const results = [];
+
+  sheets.forEach(function (sheet) {
+    const lastRow = sheet.getLastRow();
+    const lastColumn = sheet.getLastColumn();
+
+    if (lastRow < 1 || lastColumn < 2) {
+      return;
+    }
+
+    const values = sheet.getRange(1, 1, lastRow, lastColumn).getValues();
+    const headers = values[0];
+
+    if (headers[0] !== "Serial Number") {
+      return;
+    }
+
+    const totalRowIndex = values.findIndex(function (row, index) {
+      return index > 0 && row[0] === "Total";
+    });
+    const lastVoteRowIndex = totalRowIndex === -1 ? values.length - 1 : totalRowIndex - 1;
+    const voteRows = Math.max(0, lastVoteRowIndex);
+    const candidates = [];
+
+    for (let columnIndex = 1; columnIndex < headers.length; columnIndex++) {
+      const candidateName = headers[columnIndex];
+      let total = 0;
+
+      if (!candidateName) {
+        continue;
+      }
+
+      if (totalRowIndex !== -1) {
+        total = Number(values[totalRowIndex][columnIndex]) || 0;
+      } else {
+        for (let rowIndex = 1; rowIndex < values.length; rowIndex++) {
+          total += Number(values[rowIndex][columnIndex]) || 0;
+        }
+      }
+
+      candidates.push({
+        name: candidateName,
+        total: total
+      });
+    }
+
+    candidates.sort(function (first, second) {
+      return second.total - first.total;
+    });
+
+    results.push({
+      postName: sheet.getName(),
+      totalVotes: voteRows,
+      candidates: candidates
+    });
+  });
+
+  return {
+    status: "ok",
+    generatedAt: new Date().toISOString(),
+    results: results
+  };
+}  
