@@ -73,21 +73,6 @@ body {
   text-shadow: 0 3px 14px rgba(0, 0, 0, 0.38);
 }
 
-.header-link {
-  min-height: 42px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid rgba(255, 255, 255, 0.82);
-  border-radius: 8px;
-  padding: 0 14px;
-  color: var(--white);
-  background: rgba(0, 0, 0, 0.28);
-  font-weight: 800;
-  text-align: center;
-  text-decoration: none;
-}
-
 .frame-slider {
   padding: 24px clamp(12px, 3vw, 32px) 18px;
 }
@@ -469,11 +454,6 @@ button:focus-visible,
     grid-template-columns: 72px 1fr;
   }
 
-  .header-link {
-    grid-column: 1 / -1;
-    justify-self: stretch;
-  }
-
   .school-logo {
     width: 68px;
     height: 68px;
@@ -550,4 +530,4 @@ button:focus-visible,
   .candidate-grid {
     grid-template-columns: 1fr;
   }
-}
+} 
