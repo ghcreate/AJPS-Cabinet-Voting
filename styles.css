@@ -73,6 +73,21 @@ body {
   text-shadow: 0 3px 14px rgba(0, 0, 0, 0.38);
 }
 
+.header-link {
+  min-height: 42px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.82);
+  border-radius: 8px;
+  padding: 0 14px;
+  color: var(--white);
+  background: rgba(0, 0, 0, 0.28);
+  font-weight: 800;
+  text-align: center;
+  text-decoration: none;
+}
+
 .frame-slider {
   padding: 24px clamp(12px, 3vw, 32px) 18px;
 }
@@ -290,6 +305,153 @@ body {
   cursor: wait;
 }
 
+.admin-app {
+  min-height: 100vh;
+  background: var(--paper);
+}
+
+.admin-toolbar {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 24px clamp(14px, 3vw, 32px) 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.admin-toolbar h2 {
+  margin: 0 0 6px;
+  color: var(--school-green);
+  font-size: clamp(1.4rem, 3vw, 2.15rem);
+}
+
+.admin-toolbar p {
+  margin: 0;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.admin-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.secondary-link,
+.refresh-button {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  padding: 0 16px;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.secondary-link {
+  border: 1px solid var(--line);
+  color: var(--ink);
+  background: var(--white);
+}
+
+.refresh-button {
+  border: 0;
+  color: var(--white);
+  background: var(--school-green);
+  cursor: pointer;
+}
+
+.refresh-button:disabled {
+  opacity: 0.55;
+  cursor: wait;
+}
+
+.results-grid {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 12px clamp(14px, 3vw, 32px) 36px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.result-card {
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  box-shadow: 0 10px 24px rgba(23, 32, 51, 0.1);
+  padding: 18px;
+}
+
+.result-card-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 14px;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 12px;
+}
+
+.result-card-header h3 {
+  margin: 0;
+  color: var(--ink);
+  font-size: 1.22rem;
+}
+
+.result-card-header span {
+  color: var(--muted);
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.result-list {
+  display: grid;
+  gap: 11px;
+}
+
+.result-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 42px;
+  gap: 7px 12px;
+  align-items: center;
+}
+
+.result-row.leading .result-name,
+.result-row.leading .result-total {
+  color: var(--school-green);
+}
+
+.result-name {
+  min-width: 0;
+  color: var(--ink);
+  font-weight: 800;
+  overflow-wrap: anywhere;
+}
+
+.result-total {
+  color: var(--ink);
+  text-align: right;
+}
+
+.result-bar-track {
+  grid-column: 1 / -1;
+  height: 10px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #e8eef5;
+}
+
+.result-bar {
+  width: 0;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--school-green), var(--school-gold));
+  transition: width 280ms ease;
+}
+
 button:focus-visible,
 .candidate-card:focus-within {
   outline: 3px solid var(--focus);
@@ -307,8 +469,9 @@ button:focus-visible,
     grid-template-columns: 72px 1fr;
   }
 
-  .brand-bar::after {
-    display: none;
+  .header-link {
+    grid-column: 1 / -1;
+    justify-self: stretch;
   }
 
   .school-logo {
@@ -353,6 +516,24 @@ button:focus-visible,
   .frame-submit {
     flex-direction: column;
     align-items: stretch;
+  }
+
+  .admin-toolbar {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .admin-actions {
+    width: 100%;
+  }
+
+  .secondary-link,
+  .refresh-button {
+    flex: 1;
+  }
+
+  .results-grid {
+    grid-template-columns: 1fr;
   }
 
   #message {
