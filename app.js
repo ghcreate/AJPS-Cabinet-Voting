@@ -1,4 +1,4 @@
-const GOOGLE_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwXhJv-46jo5Ys5wSr69eQEgI21etHOpJ-9BAtplKnMtvMQfEjlwZi03xv7XFBPdA5V/exec";
+const GOOGLE_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx_7ddWf7HZ138OJmC94AlZ2QP07qI63zi4no4gyqvyOnnkAxJCC1IQMQzZh2UpkitZZg/exec";
 
 const slides = document.querySelector("#slides");
 const postCards = Array.from(document.querySelectorAll(".post-card"));
