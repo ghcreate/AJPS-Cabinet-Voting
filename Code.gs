@@ -216,4 +216,4 @@ function getResults_() {
     generatedAt: new Date().toISOString(),
     results: results
   };
-}  
+} 
