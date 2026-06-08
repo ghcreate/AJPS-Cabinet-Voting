@@ -1,4 +1,4 @@
-const GOOGLE_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzF9e_k8Q55oUtc-3fNmoBVnqZDjRBCD0V_1UFh8hZdGKTifR09GoAy0IEYD9R4Nqb8/exec";
+const GOOGLE_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwXhJv-46jo5Ys5wSr69eQEgI21etHOpJ-9BAtplKnMtvMQfEjlwZi03xv7XFBPdA5V/exec";
 
 const slides = document.querySelector("#slides");
 const postCards = Array.from(document.querySelectorAll(".post-card"));
@@ -164,4 +164,4 @@ function buildFormBody(payload) {
   return body;
 }
 
-goToSlide(0);
+goToSlide(0);  
