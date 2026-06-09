@@ -15,101 +15,80 @@
       </div>
     </header>
 
-    <section class="frame frame-slider" aria-label="School cabinet voting posts">
+    <section class="house-page" id="housePage" aria-labelledby="houseTitle">
+      <div class="house-panel">
+        <h2 id="houseTitle">Select your house</h2>
+        <div class="house-grid" role="radiogroup" aria-label="House selection">
+          <label class="house-card yellow-house">
+            <input type="radio" name="selected_house" value="Yellow House">
+            <span>Yellow House</span>
+          </label>
+          <label class="house-card red-house">
+            <input type="radio" name="selected_house" value="Red House">
+            <span>Red House</span>
+          </label>
+          <label class="house-card blue-house">
+            <input type="radio" name="selected_house" value="Blue House">
+            <span>Blue House</span>
+          </label>
+          <label class="house-card green-house">
+            <input type="radio" name="selected_house" value="Green House">
+            <span>Green House</span>
+          </label>
+        </div>
+        <p id="houseMessage" class="house-message" role="status" aria-live="polite"></p>
+        <button class="house-submit" type="button" id="houseSubmitBtn">Submit</button>
+      </div>
+    </section>
+
+    <section class="frame frame-slider hidden" id="votingPage" aria-label="School cabinet voting posts">
+      <div class="selected-house-strip" id="selectedHouseStrip"></div>
       <div class="slider-shell">
         <button class="nav-button" type="button" id="prevBtn" aria-label="Previous post">&#8249;</button>
 
         <form id="voteForm" class="slider-window" novalidate>
           <div class="slides" id="slides">
-            <section class="post-card active" data-post-name="School Captain">
-              <h2>School Captain</h2>
+            <section class="post-card active" data-post-name="Head Boy" data-shared-post="true">
+              <h2>Head Boy</h2>
               <div class="candidate-grid">
                 <label class="candidate-card">
-                  <input type="radio" name="school_captain" value="Aarav Nair" required>
-                  <img src="images/school-captain-aarav-nair.jpg" alt="Aarav Nair">
+                  <input type="radio" name="head_boy" value="Aarav Nair" required>
+                  <img src="images/head-boy-aarav-nair.jpg" alt="Aarav Nair">
                   <span class="candidate-name">Aarav Nair</span>
                   <span class="candidate-class">Class X - A</span>
                 </label>
                 <label class="candidate-card">
-                  <input type="radio" name="school_captain" value="Diya Menon">
-                  <img src="images/school-captain-diya-menon.jpg" alt="Diya Menon">
-                  <span class="candidate-name">Diya Menon</span>
-                  <span class="candidate-class">Class X - B</span>
-                </label>
-                <label class="candidate-card">
-                  <input type="radio" name="school_captain" value="Kabir Sharma">
-                  <img src="images/school-captain-kabir-sharma.jpg" alt="Kabir Sharma">
+                  <input type="radio" name="head_boy" value="Kabir Sharma">
+                  <img src="images/head-boy-kabir-sharma.jpg" alt="Kabir Sharma">
                   <span class="candidate-name">Kabir Sharma</span>
                   <span class="candidate-class">Class X - C</span>
                 </label>
                 <label class="candidate-card">
-                  <input type="radio" name="school_captain" value="Meera Rao">
-                  <img src="images/school-captain-meera-rao.jpg" alt="Meera Rao">
-                  <span class="candidate-name">Meera Rao</span>
-                  <span class="candidate-class">Class X - D</span>
-                </label>
-                <label class="candidate-card">
-                  <input type="radio" name="school_captain" value="Rohan Iyer">
-                  <img src="images/school-captain-rohan-iyer.jpg" alt="Rohan Iyer">
+                  <input type="radio" name="head_boy" value="Rohan Iyer">
+                  <img src="images/head-boy-rohan-iyer.jpg" alt="Rohan Iyer">
                   <span class="candidate-name">Rohan Iyer</span>
                   <span class="candidate-class">Class IX - A</span>
                 </label>
                 <label class="candidate-card">
-                  <input type="radio" name="school_captain" value="Sara Khan">
-                  <img src="images/school-captain-sara-khan.jpg" alt="Sara Khan">
-                  <span class="candidate-name">Sara Khan</span>
-                  <span class="candidate-class">Class IX - B</span>
-                </label>
-                <label class="candidate-card nota-card">
-                  <input type="radio" name="school_captain" value="NOTA">
-                  <span class="nota-mark">NOTA</span>
-                  <span class="candidate-name">None of the Above</span>
-                  <span class="candidate-class">No candidate selected</span>
-                </label>
-              </div>
-            </section>
-
-            <section class="post-card" data-post-name="Vice Captain">
-              <h2>Vice Captain</h2>
-              <div class="candidate-grid">
-                <label class="candidate-card">
-                  <input type="radio" name="vice_captain" value="Ananya Gupta" required>
-                  <img src="images/vice-captain-ananya-gupta.jpg" alt="Ananya Gupta">
-                  <span class="candidate-name">Ananya Gupta</span>
-                  <span class="candidate-class">Class IX - C</span>
-                </label>
-                <label class="candidate-card">
-                  <input type="radio" name="vice_captain" value="Dev Patel">
-                  <img src="images/vice-captain-dev-patel.jpg" alt="Dev Patel">
+                  <input type="radio" name="head_boy" value="Dev Patel">
+                  <img src="images/head-boy-dev-patel.jpg" alt="Dev Patel">
                   <span class="candidate-name">Dev Patel</span>
                   <span class="candidate-class">Class IX - D</span>
                 </label>
                 <label class="candidate-card">
-                  <input type="radio" name="vice_captain" value="Ishita Roy">
-                  <img src="images/vice-captain-ishita-roy.jpg" alt="Ishita Roy">
-                  <span class="candidate-name">Ishita Roy</span>
-                  <span class="candidate-class">Class VIII - A</span>
-                </label>
-                <label class="candidate-card">
-                  <input type="radio" name="vice_captain" value="Nikhil Das">
-                  <img src="images/vice-captain-nikhil-das.jpg" alt="Nikhil Das">
+                  <input type="radio" name="head_boy" value="Nikhil Das">
+                  <img src="images/head-boy-nikhil-das.jpg" alt="Nikhil Das">
                   <span class="candidate-name">Nikhil Das</span>
                   <span class="candidate-class">Class VIII - B</span>
                 </label>
                 <label class="candidate-card">
-                  <input type="radio" name="vice_captain" value="Prisha S">
-                  <img src="images/vice-captain-prisha-s.jpg" alt="Prisha S">
-                  <span class="candidate-name">Prisha S</span>
-                  <span class="candidate-class">Class VIII - C</span>
-                </label>
-                <label class="candidate-card">
-                  <input type="radio" name="vice_captain" value="Vihaan Rao">
-                  <img src="images/vice-captain-vihaan-rao.jpg" alt="Vihaan Rao">
+                  <input type="radio" name="head_boy" value="Vihaan Rao">
+                  <img src="images/head-boy-vihaan-rao.jpg" alt="Vihaan Rao">
                   <span class="candidate-name">Vihaan Rao</span>
                   <span class="candidate-class">Class VIII - D</span>
                 </label>
                 <label class="candidate-card nota-card">
-                  <input type="radio" name="vice_captain" value="NOTA">
+                  <input type="radio" name="head_boy" value="NOTA">
                   <span class="nota-mark">NOTA</span>
                   <span class="candidate-name">None of the Above</span>
                   <span class="candidate-class">No candidate selected</span>
@@ -117,389 +96,65 @@
               </div>
             </section>
 
-            <section class="post-card" data-post-name="Sports Captain">
+            <section class="post-card" data-post-name="Head Girl" data-shared-post="true">
+              <h2>Head Girl</h2>
+              <div class="candidate-grid">
+                <label class="candidate-card">
+                  <input type="radio" name="head_girl" value="Diya Menon" required>
+                  <img src="images/head-girl-diya-menon.jpg" alt="Diya Menon">
+                  <span class="candidate-name">Diya Menon</span>
+                  <span class="candidate-class">Class X - B</span>
+                </label>
+                <label class="candidate-card">
+                  <input type="radio" name="head_girl" value="Meera Rao">
+                  <img src="images/head-girl-meera-rao.jpg" alt="Meera Rao">
+                  <span class="candidate-name">Meera Rao</span>
+                  <span class="candidate-class">Class X - D</span>
+                </label>
+                <label class="candidate-card">
+                  <input type="radio" name="head_girl" value="Sara Khan">
+                  <img src="images/head-girl-sara-khan.jpg" alt="Sara Khan">
+                  <span class="candidate-name">Sara Khan</span>
+                  <span class="candidate-class">Class IX - B</span>
+                </label>
+                <label class="candidate-card">
+                  <input type="radio" name="head_girl" value="Ananya Gupta">
+                  <img src="images/head-girl-ananya-gupta.jpg" alt="Ananya Gupta">
+                  <span class="candidate-name">Ananya Gupta</span>
+                  <span class="candidate-class">Class IX - C</span>
+                </label>
+                <label class="candidate-card">
+                  <input type="radio" name="head_girl" value="Ishita Roy">
+                  <img src="images/head-girl-ishita-roy.jpg" alt="Ishita Roy">
+                  <span class="candidate-name">Ishita Roy</span>
+                  <span class="candidate-class">Class VIII - A</span>
+                </label>
+                <label class="candidate-card">
+                  <input type="radio" name="head_girl" value="Prisha S">
+                  <img src="images/head-girl-prisha-s.jpg" alt="Prisha S">
+                  <span class="candidate-name">Prisha S</span>
+                  <span class="candidate-class">Class VIII - C</span>
+                </label>
+                <label class="candidate-card nota-card">
+                  <input type="radio" name="head_girl" value="NOTA">
+                  <span class="nota-mark">NOTA</span>
+                  <span class="candidate-name">None of the Above</span>
+                  <span class="candidate-class">No candidate selected</span>
+                </label>
+              </div>
+            </section>
+
+            <section class="post-card house-post" data-post-name="Sports Captain">
               <h2>Sports Captain</h2>
-              <div class="candidate-grid">
-                <label class="candidate-card">
-                  <input type="radio" name="sports_captain" value="Aditya Bhat" required>
-                  <img src="images/sports-captain-aditya-bhat.jpg" alt="Aditya Bhat">
-                  <span class="candidate-name">Aditya Bhat</span>
-                  <span class="candidate-class">Class X - A</span>
-                </label>
-                <label class="candidate-card">
-                  <input type="radio" name="sports_captain" value="Bhavana R">
-                  <img src="images/sports-captain-bhavana-r.jpg" alt="Bhavana R">
-                  <span class="candidate-name">Bhavana R</span>
-                  <span class="candidate-class">Class X - B</span>
-                </label>
-                <label class="candidate-card">
-                  <input type="radio" name="sports_captain" value="Chirag K">
-                  <img src="images/sports-captain-chirag-k.jpg" alt="Chirag K">
-                  <span class="candidate-name">Chirag K</span>
-                  <span class="candidate-class">Class IX - A</span>
-                </label>
-                <label class="candidate-card">
-                  <input type="radio" name="sports_captain" value="Esha Thomas">
-                  <img src="images/sports-captain-esha-thomas.jpg" alt="Esha Thomas">
-                  <span class="candidate-name">Esha Thomas</span>
-                  <span class="candidate-class">Class IX - B</span>
-                </label>
-                <label class="candidate-card">
-                  <input type="radio" name="sports_captain" value="Harsh V">
-                  <img src="images/sports-captain-harsh-v.jpg" alt="Harsh V">
-                  <span class="candidate-name">Harsh V</span>
-                  <span class="candidate-class">Class VIII - A</span>
-                </label>
-                <label class="candidate-card">
-                  <input type="radio" name="sports_captain" value="Lakshmi P">
-                  <img src="images/sports-captain-lakshmi-p.jpg" alt="Lakshmi P">
-                  <span class="candidate-name">Lakshmi P</span>
-                  <span class="candidate-class">Class VIII - B</span>
-                </label>
-                <label class="candidate-card nota-card">
-                  <input type="radio" name="sports_captain" value="NOTA">
-                  <span class="nota-mark">NOTA</span>
-                  <span class="candidate-name">None of the Above</span>
-                  <span class="candidate-class">No candidate selected</span>
-                </label>
-              </div>
             </section>
 
-            <section class="post-card" data-post-name="Cultural Secretary">
-              <h2>Cultural Secretary</h2>
-              <div class="candidate-grid">
-                <label class="candidate-card">
-                  <input type="radio" name="cultural_secretary" value="Anika Jose" required>
-                  <img src="images/cultural-secretary-anika-jose.jpg" alt="Anika Jose">
-                  <span class="candidate-name">Anika Jose</span>
-                  <span class="candidate-class">Class X - C</span>
-                </label>
-                <label class="candidate-card">
-                  <input type="radio" name="cultural_secretary" value="Danish Ali">
-                  <img src="images/cultural-secretary-danish-ali.jpg" alt="Danish Ali">
-                  <span class="candidate-name">Danish Ali</span>
-                  <span class="candidate-class">Class X - D</span>
-                </label>
-                <label class="candidate-card">
-                  <input type="radio" name="cultural_secretary" value="Gayathri N">
-                  <img src="images/cultural-secretary-gayathri-n.jpg" alt="Gayathri N">
-                  <span class="candidate-name">Gayathri N</span>
-                  <span class="candidate-class">Class IX - C</span>
-                </label>
-                <label class="candidate-card">
-                  <input type="radio" name="cultural_secretary" value="Madhav S">
-                  <img src="images/cultural-secretary-madhav-s.jpg" alt="Madhav S">
-                  <span class="candidate-name">Madhav S</span>
-                  <span class="candidate-class">Class IX - D</span>
-                </label>
-                <label class="candidate-card">
-                  <input type="radio" name="cultural_secretary" value="Naina B">
-                  <img src="images/cultural-secretary-naina-b.jpg" alt="Naina B">
-                  <span class="candidate-name">Naina B</span>
-                  <span class="candidate-class">Class VIII - C</span>
-                </label>
-                <label class="candidate-card">
-                  <input type="radio" name="cultural_secretary" value="Reyansh M">
-                  <img src="images/cultural-secretary-reyansh-m.jpg" alt="Reyansh M">
-                  <span class="candidate-name">Reyansh M</span>
-                  <span class="candidate-class">Class VIII - D</span>
-                </label>
-                <label class="candidate-card nota-card">
-                  <input type="radio" name="cultural_secretary" value="NOTA">
-                  <span class="nota-mark">NOTA</span>
-                  <span class="candidate-name">None of the Above</span>
-                  <span class="candidate-class">No candidate selected</span>
-                </label>
-              </div>
-            </section>
-
-            <section class="post-card" data-post-name="Discipline Captain">
-              <h2>Discipline Captain</h2>
-              <div class="candidate-grid">
-                <label class="candidate-card">
-                  <input type="radio" name="discipline_captain" value="Akhil Raj" required>
-                  <img src="images/discipline-captain-akhil-raj.jpg" alt="Akhil Raj">
-                  <span class="candidate-name">Akhil Raj</span>
-                  <span class="candidate-class">Class X - A</span>
-                </label>
-                <label class="candidate-card">
-                  <input type="radio" name="discipline_captain" value="Charvi Shah">
-                  <img src="images/discipline-captain-charvi-shah.jpg" alt="Charvi Shah">
-                  <span class="candidate-name">Charvi Shah</span>
-                  <span class="candidate-class">Class X - B</span>
-                </label>
-                <label class="candidate-card">
-                  <input type="radio" name="discipline_captain" value="Farhan K">
-                  <img src="images/discipline-captain-farhan-k.jpg" alt="Farhan K">
-                  <span class="candidate-name">Farhan K</span>
-                  <span class="candidate-class">Class IX - A</span>
-                </label>
-                <label class="candidate-card">
-                  <input type="radio" name="discipline_captain" value="Jhanvi P">
-                  <img src="images/discipline-captain-jhanvi-p.jpg" alt="Jhanvi P">
-                  <span class="candidate-name">Jhanvi P</span>
-                  <span class="candidate-class">Class IX - B</span>
-                </label>
-                <label class="candidate-card">
-                  <input type="radio" name="discipline_captain" value="Karan Mehta">
-                  <img src="images/discipline-captain-karan-mehta.jpg" alt="Karan Mehta">
-                  <span class="candidate-name">Karan Mehta</span>
-                  <span class="candidate-class">Class VIII - A</span>
-                </label>
-                <label class="candidate-card">
-                  <input type="radio" name="discipline_captain" value="Sneha L">
-                  <img src="images/discipline-captain-sneha-l.jpg" alt="Sneha L">
-                  <span class="candidate-name">Sneha L</span>
-                  <span class="candidate-class">Class VIII - B</span>
-                </label>
-                <label class="candidate-card nota-card">
-                  <input type="radio" name="discipline_captain" value="NOTA">
-                  <span class="nota-mark">NOTA</span>
-                  <span class="candidate-name">None of the Above</span>
-                  <span class="candidate-class">No candidate selected</span>
-                </label>
-              </div>
-            </section>
-
-            <section class="post-card" data-post-name="Literary Secretary">
-              <h2>Literary Secretary</h2>
-              <div class="candidate-grid">
-                <label class="candidate-card">
-                  <input type="radio" name="literary_secretary" value="Anushka Hegde" required>
-                  <img src="images/literary-secretary-anushka-hegde.jpg" alt="Anushka Hegde">
-                  <span class="candidate-name">Anushka Hegde</span>
-                  <span class="candidate-class">Class X - C</span>
-                </label>
-                <label class="candidate-card">
-                  <input type="radio" name="literary_secretary" value="Gaurav Pai">
-                  <img src="images/literary-secretary-gaurav-pai.jpg" alt="Gaurav Pai">
-                  <span class="candidate-name">Gaurav Pai</span>
-                  <span class="candidate-class">Class X - D</span>
-                </label>
-                <label class="candidate-card">
-                  <input type="radio" name="literary_secretary" value="Janani R">
-                  <img src="images/literary-secretary-janani-r.jpg" alt="Janani R">
-                  <span class="candidate-name">Janani R</span>
-                  <span class="candidate-class">Class IX - C</span>
-                </label>
-                <label class="candidate-card">
-                  <input type="radio" name="literary_secretary" value="Mohit Sinha">
-                  <img src="images/literary-secretary-mohit-sinha.jpg" alt="Mohit Sinha">
-                  <span class="candidate-name">Mohit Sinha</span>
-                  <span class="candidate-class">Class IX - D</span>
-                </label>
-                <label class="candidate-card">
-                  <input type="radio" name="literary_secretary" value="Parvathy U">
-                  <img src="images/literary-secretary-parvathy-u.jpg" alt="Parvathy U">
-                  <span class="candidate-name">Parvathy U</span>
-                  <span class="candidate-class">Class VIII - C</span>
-                </label>
-                <label class="candidate-card">
-                  <input type="radio" name="literary_secretary" value="Vedant N">
-                  <img src="images/literary-secretary-vedant-n.jpg" alt="Vedant N">
-                  <span class="candidate-name">Vedant N</span>
-                  <span class="candidate-class">Class VIII - D</span>
-                </label>
-                <label class="candidate-card nota-card">
-                  <input type="radio" name="literary_secretary" value="NOTA">
-                  <span class="nota-mark">NOTA</span>
-                  <span class="candidate-name">None of the Above</span>
-                  <span class="candidate-class">No candidate selected</span>
-                </label>
-              </div>
-            </section>
-
-            <section class="post-card" data-post-name="Green House Captain">
-              <h2>Green House Captain</h2>
-              <div class="candidate-grid">
-                <label class="candidate-card">
-                  <input type="radio" name="green_house_captain" value="Arjun Prasad" required>
-                  <img src="images/green-house-captain-arjun-prasad.jpg" alt="Arjun Prasad">
-                  <span class="candidate-name">Arjun Prasad</span>
-                  <span class="candidate-class">Class X - A</span>
-                </label>
-                <label class="candidate-card">
-                  <input type="radio" name="green_house_captain" value="Bhavya Jain">
-                  <img src="images/green-house-captain-bhavya-jain.jpg" alt="Bhavya Jain">
-                  <span class="candidate-name">Bhavya Jain</span>
-                  <span class="candidate-class">Class IX - A</span>
-                </label>
-                <label class="candidate-card">
-                  <input type="radio" name="green_house_captain" value="Dhruv Kumar">
-                  <img src="images/green-house-captain-dhruv-kumar.jpg" alt="Dhruv Kumar">
-                  <span class="candidate-name">Dhruv Kumar</span>
-                  <span class="candidate-class">Class VIII - A</span>
-                </label>
-                <label class="candidate-card">
-                  <input type="radio" name="green_house_captain" value="Ira Sethi">
-                  <img src="images/green-house-captain-ira-sethi.jpg" alt="Ira Sethi">
-                  <span class="candidate-name">Ira Sethi</span>
-                  <span class="candidate-class">Class X - B</span>
-                </label>
-                <label class="candidate-card">
-                  <input type="radio" name="green_house_captain" value="Manav Pillai">
-                  <img src="images/green-house-captain-manav-pillai.jpg" alt="Manav Pillai">
-                  <span class="candidate-name">Manav Pillai</span>
-                  <span class="candidate-class">Class IX - B</span>
-                </label>
-                <label class="candidate-card">
-                  <input type="radio" name="green_house_captain" value="Tanvi Kulkarni">
-                  <img src="images/green-house-captain-tanvi-kulkarni.jpg" alt="Tanvi Kulkarni">
-                  <span class="candidate-name">Tanvi Kulkarni</span>
-                  <span class="candidate-class">Class VIII - B</span>
-                </label>
-                <label class="candidate-card nota-card">
-                  <input type="radio" name="green_house_captain" value="NOTA">
-                  <span class="nota-mark">NOTA</span>
-                  <span class="candidate-name">None of the Above</span>
-                  <span class="candidate-class">No candidate selected</span>
-                </label>
-              </div>
-            </section>
-
-            <section class="post-card" data-post-name="Blue House Captain">
-              <h2>Blue House Captain</h2>
-              <div class="candidate-grid">
-                <label class="candidate-card">
-                  <input type="radio" name="blue_house_captain" value="Aisha Qureshi" required>
-                  <img src="images/blue-house-captain-aisha-qureshi.jpg" alt="Aisha Qureshi">
-                  <span class="candidate-name">Aisha Qureshi</span>
-                  <span class="candidate-class">Class X - C</span>
-                </label>
-                <label class="candidate-card">
-                  <input type="radio" name="blue_house_captain" value="Darsh B">
-                  <img src="images/blue-house-captain-darsh-b.jpg" alt="Darsh B">
-                  <span class="candidate-name">Darsh B</span>
-                  <span class="candidate-class">Class IX - C</span>
-                </label>
-                <label class="candidate-card">
-                  <input type="radio" name="blue_house_captain" value="Keerthi N">
-                  <img src="images/blue-house-captain-keerthi-n.jpg" alt="Keerthi N">
-                  <span class="candidate-name">Keerthi N</span>
-                  <span class="candidate-class">Class VIII - C</span>
-                </label>
-                <label class="candidate-card">
-                  <input type="radio" name="blue_house_captain" value="Lohit R">
-                  <img src="images/blue-house-captain-lohit-r.jpg" alt="Lohit R">
-                  <span class="candidate-name">Lohit R</span>
-                  <span class="candidate-class">Class X - D</span>
-                </label>
-                <label class="candidate-card">
-                  <input type="radio" name="blue_house_captain" value="Mira Fernandes">
-                  <img src="images/blue-house-captain-mira-fernandes.jpg" alt="Mira Fernandes">
-                  <span class="candidate-name">Mira Fernandes</span>
-                  <span class="candidate-class">Class IX - D</span>
-                </label>
-                <label class="candidate-card">
-                  <input type="radio" name="blue_house_captain" value="Yash Gowda">
-                  <img src="images/blue-house-captain-yash-gowda.jpg" alt="Yash Gowda">
-                  <span class="candidate-name">Yash Gowda</span>
-                  <span class="candidate-class">Class VIII - D</span>
-                </label>
-                <label class="candidate-card nota-card">
-                  <input type="radio" name="blue_house_captain" value="NOTA">
-                  <span class="nota-mark">NOTA</span>
-                  <span class="candidate-name">None of the Above</span>
-                  <span class="candidate-class">No candidate selected</span>
-                </label>
-              </div>
-            </section>
-
-            <section class="post-card" data-post-name="Red House Captain">
-              <h2>Red House Captain</h2>
-              <div class="candidate-grid">
-                <label class="candidate-card">
-                  <input type="radio" name="red_house_captain" value="Advika S" required>
-                  <img src="images/red-house-captain-advika-s.jpg" alt="Advika S">
-                  <span class="candidate-name">Advika S</span>
-                  <span class="candidate-class">Class X - A</span>
-                </label>
-                <label class="candidate-card">
-                  <input type="radio" name="red_house_captain" value="Eshan D">
-                  <img src="images/red-house-captain-eshan-d.jpg" alt="Eshan D">
-                  <span class="candidate-name">Eshan D</span>
-                  <span class="candidate-class">Class IX - A</span>
-                </label>
-                <label class="candidate-card">
-                  <input type="radio" name="red_house_captain" value="Kavya Ramesh">
-                  <img src="images/red-house-captain-kavya-ramesh.jpg" alt="Kavya Ramesh">
-                  <span class="candidate-name">Kavya Ramesh</span>
-                  <span class="candidate-class">Class VIII - A</span>
-                </label>
-                <label class="candidate-card">
-                  <input type="radio" name="red_house_captain" value="Neil Mathew">
-                  <img src="images/red-house-captain-neil-mathew.jpg" alt="Neil Mathew">
-                  <span class="candidate-name">Neil Mathew</span>
-                  <span class="candidate-class">Class X - B</span>
-                </label>
-                <label class="candidate-card">
-                  <input type="radio" name="red_house_captain" value="Rhea Kapoor">
-                  <img src="images/red-house-captain-rhea-kapoor.jpg" alt="Rhea Kapoor">
-                  <span class="candidate-name">Rhea Kapoor</span>
-                  <span class="candidate-class">Class IX - B</span>
-                </label>
-                <label class="candidate-card">
-                  <input type="radio" name="red_house_captain" value="Samar Kulal">
-                  <img src="images/red-house-captain-samar-kulal.jpg" alt="Samar Kulal">
-                  <span class="candidate-name">Samar Kulal</span>
-                  <span class="candidate-class">Class VIII - B</span>
-                </label>
-                <label class="candidate-card nota-card">
-                  <input type="radio" name="red_house_captain" value="NOTA">
-                  <span class="nota-mark">NOTA</span>
-                  <span class="candidate-name">None of the Above</span>
-                  <span class="candidate-class">No candidate selected</span>
-                </label>
-              </div>
-            </section>
-
-            <section class="post-card" data-post-name="Yellow House Captain">
-              <h2>Yellow House Captain</h2>
-              <div class="candidate-grid">
-                <label class="candidate-card">
-                  <input type="radio" name="yellow_house_captain" value="Abhay Nanda" required>
-                  <img src="images/yellow-house-captain-abhay-nanda.jpg" alt="Abhay Nanda">
-                  <span class="candidate-name">Abhay Nanda</span>
-                  <span class="candidate-class">Class X - C</span>
-                </label>
-                <label class="candidate-card">
-                  <input type="radio" name="yellow_house_captain" value="Deepika M">
-                  <img src="images/yellow-house-captain-deepika-m.jpg" alt="Deepika M">
-                  <span class="candidate-name">Deepika M</span>
-                  <span class="candidate-class">Class IX - C</span>
-                </label>
-                <label class="candidate-card">
-                  <input type="radio" name="yellow_house_captain" value="Hriday V">
-                  <img src="images/yellow-house-captain-hriday-v.jpg" alt="Hriday V">
-                  <span class="candidate-name">Hriday V</span>
-                  <span class="candidate-class">Class VIII - C</span>
-                </label>
-                <label class="candidate-card">
-                  <input type="radio" name="yellow_house_captain" value="Kiara Dsouza">
-                  <img src="images/yellow-house-captain-kiara-dsouza.jpg" alt="Kiara Dsouza">
-                  <span class="candidate-name">Kiara Dsouza</span>
-                  <span class="candidate-class">Class X - D</span>
-                </label>
-                <label class="candidate-card">
-                  <input type="radio" name="yellow_house_captain" value="Omkar S">
-                  <img src="images/yellow-house-captain-omkar-s.jpg" alt="Omkar S">
-                  <span class="candidate-name">Omkar S</span>
-                  <span class="candidate-class">Class IX - D</span>
-                </label>
-                <label class="candidate-card">
-                  <input type="radio" name="yellow_house_captain" value="Zoya M">
-                  <img src="images/yellow-house-captain-zoya-m.jpg" alt="Zoya M">
-                  <span class="candidate-name">Zoya M</span>
-                  <span class="candidate-class">Class VIII - D</span>
-                </label>
-                <label class="candidate-card nota-card">
-                  <input type="radio" name="yellow_house_captain" value="NOTA">
-                  <span class="nota-mark">NOTA</span>
-                  <span class="candidate-name">None of the Above</span>
-                  <span class="candidate-class">No candidate selected</span>
-                </label>
-              </div>
-            </section>
+            <section class="post-card house-post" data-post-name="Cultural Secretary"><h2>Cultural Secretary</h2></section>
+            <section class="post-card house-post" data-post-name="Discipline Captain"><h2>Discipline Captain</h2></section>
+            <section class="post-card house-post" data-post-name="Literary Secretary"><h2>Literary Secretary</h2></section>
+            <section class="post-card house-post" data-post-name="House Captain"><h2>House Captain</h2></section>
+            <section class="post-card house-post" data-post-name="House Vice Captain"><h2>House Vice Captain</h2></section>
+            <section class="post-card house-post" data-post-name="House Prefect"><h2>House Prefect</h2></section>
+            <section class="post-card house-post" data-post-name="House Secretary"><h2>House Secretary</h2></section>
           </div>
         </form>
 
@@ -512,7 +167,7 @@
       </div>
     </section>
 
-    <footer class="frame frame-submit">
+    <footer class="frame frame-submit hidden" id="submitFrame">
       <p id="message" role="status" aria-live="polite"></p>
       <button class="submit-button" type="submit" form="voteForm" id="submitBtn">Submit Vote</button>
     </footer>
@@ -520,4 +175,4 @@
 
   <script src="app.js"></script>
 </body>
-</html>  
+</html>    
