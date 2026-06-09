@@ -223,7 +223,7 @@ function createCandidateCard(postName, houseName, candidateName, candidateClass)
   const image = document.createElement("img");
   const name = document.createElement("span");
   const className = document.createElement("span");
-  const logo_image = document.createElement("logo_img");
+  const logo_image = document.createElement("img");
   const radioName = makeRadioName(postName, houseName);
 
   label.className = "candidate-card";
