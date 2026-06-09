@@ -9,6 +9,7 @@
   --school-red: #b42318;
   --focus: #0b69a3;
   --shadow: 0 14px 34px rgba(23, 32, 51, 0.14);
+  --house-accent: var(--school-green);
 }
 
 * {
@@ -31,6 +32,30 @@ body {
 
 .frame {
   width: 100%;
+}
+
+.hidden {
+  display: none !important;
+}
+
+body[data-house="yellow"] {
+  --house-accent: #c28a00;
+  --house-page-bg: #d49a00;
+}
+
+body[data-house="red"] {
+  --house-accent: #b42318;
+  --house-page-bg: #bd2b20;
+}
+
+body[data-house="blue"] {
+  --house-accent: #1261a6;
+  --house-page-bg: #1769aa;
+}
+
+body[data-house="green"] {
+  --house-accent: #126c4a;
+  --house-page-bg: #178153;
 }
 
 .frame-top {
@@ -73,8 +98,124 @@ body {
   text-shadow: 0 3px 14px rgba(0, 0, 0, 0.38);
 }
 
+.house-page {
+  min-height: calc(100vh - 150px);
+  display: grid;
+  place-items: center;
+  padding: 30px clamp(14px, 3vw, 32px);
+}
+
+.house-panel {
+  width: min(860px, 100%);
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  padding: clamp(20px, 4vw, 34px);
+}
+
+.house-panel h2 {
+  margin: 0 0 22px;
+  text-align: center;
+  color: var(--ink);
+  font-size: clamp(1.8rem, 4vw, 2.55rem);
+}
+
+.house-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.house-card {
+  position: relative;
+  min-height: 150px;
+  display: grid;
+  place-items: center;
+  border: 3px solid transparent;
+  border-radius: 8px;
+  color: var(--white);
+  cursor: pointer;
+  font-size: clamp(1.25rem, 3vw, 2rem);
+  font-weight: 900;
+  text-align: center;
+  box-shadow: 0 12px 24px rgba(23, 32, 51, 0.14);
+}
+
+.house-card span {
+  display: block;
+  width: 100%;
+  padding: 0 14px;
+  text-align: center;
+}
+
+.house-card input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.house-card:has(input:checked) {
+  border-color: var(--ink);
+  box-shadow: 0 0 0 5px rgba(23, 32, 51, 0.16), 0 12px 24px rgba(23, 32, 51, 0.14);
+}
+
+.yellow-house {
+  background: #d49a00;
+}
+
+.red-house {
+  background: #bd2b20;
+}
+
+.blue-house {
+  background: #1769aa;
+}
+
+.green-house {
+  background: #178153;
+}
+
+.house-message {
+  min-height: 24px;
+  margin: 18px 0 14px;
+  color: var(--school-red);
+  text-align: center;
+  font-weight: 800;
+}
+
+.house-submit {
+  width: min(260px, 100%);
+  min-height: 52px;
+  display: block;
+  margin: 0 auto;
+  border: 0;
+  border-radius: 8px;
+  background: var(--school-green);
+  color: var(--white);
+  cursor: pointer;
+  font-size: 1.08rem;
+  font-weight: 900;
+}
+
 .frame-slider {
   padding: 24px clamp(12px, 3vw, 32px) 18px;
+  background: var(--house-page-bg, var(--paper));
+  transition: background 220ms ease;
+}
+
+.selected-house-strip {
+  max-width: 1240px;
+  margin: 0 auto 14px;
+  border-left: 6px solid var(--white);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 8px 18px rgba(23, 32, 51, 0.08);
+  padding: 12px 18px;
+  color: var(--ink);
+  font-weight: 900;
 }
 
 .slider-shell {
@@ -107,7 +248,7 @@ body {
 .post-card h2 {
   margin: 0 0 20px;
   text-align: center;
-  color: var(--school-green);
+  color: var(--house-accent);
   font-size: clamp(1.45rem, 2.2vw, 2.15rem);
   letter-spacing: 0;
 }
@@ -148,7 +289,7 @@ body {
 }
 
 .candidate-card:has(input:checked) {
-  border-color: var(--school-green);
+  border-color: var(--house-accent);
   box-shadow: 0 0 0 4px rgba(18, 108, 74, 0.16);
   background: #f1fbf6;
 }
@@ -459,6 +600,14 @@ button:focus-visible,
     height: 68px;
   }
 
+  .house-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .house-card {
+    min-height: 112px;
+  }
+
   .slider-shell {
     grid-template-columns: 1fr;
   }
@@ -530,4 +679,4 @@ button:focus-visible,
   .candidate-grid {
     grid-template-columns: 1fr;
   }
-} 
+}   
