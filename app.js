@@ -16,18 +16,18 @@ const dotsContainer = document.querySelector("#dots");
 const message = document.querySelector("#message");
 
 const generatedHousePosts = {
-  "Sports Captain": {
+  /* "Sports Captain": {
     "Yellow House": [["Anvith Rao", "Class X - C"], ["Bhavana Shetty", "Class IX - C"], ["Chirag Naik", "Class VIII - C"], ["Diksha Hegde", "Class X - D"], ["Eshan Kulkarni", "Class IX - D"], ["Faria Joseph", "Class VIII - D"]],
     "Red House": [["Gagan Murthy", "Class X - A"], ["Harini Prabhu", "Class IX - A"], ["Ishaan Thomas", "Class VIII - A"], ["Jasleen Kaur", "Class X - B"], ["Kavin Rao", "Class IX - B"], ["Lekha Suresh", "Class VIII - B"]],
     "Blue House": [["Manas Pai", "Class X - C"], ["Nivedita Roy", "Class IX - C"], ["Ojas Menon", "Class VIII - C"], ["Pavitra Das", "Class X - D"], ["Qadir Ali", "Class IX - D"], ["Ritika Shah", "Class VIII - D"]],
     "Green House": [["Samarjit Nair", "Class X - A"], ["Tanisha Bhat", "Class IX - A"], ["Uday Prakash", "Class VIII - A"], ["Vaidehi Pillai", "Class X - B"], ["Waseem Khan", "Class IX - B"], ["Yamini Reddy", "Class VIII - B"]]
-  },
-  "Cultural Secretary": {
+  }, */
+  /* "Cultural Secretary": {
     "Yellow House": [["Aarohi Desai", "Class X - A"], ["Bhuvika Jain", "Class IX - B"], ["Charan Lal", "Class VIII - C"], ["Devanshi Rao", "Class X - C"], ["Eklavya Sinha", "Class IX - D"], ["Falak Ahmed", "Class VIII - A"]],
     "Red House": [["Garima Kapoor", "Class X - B"], ["Hrishikesh Iyer", "Class IX - A"], ["Ipsita Ghosh", "Class VIII - D"], ["Jatin Verma", "Class X - D"], ["Kashvi Dutta", "Class IX - C"], ["Lakshya Bose", "Class VIII - B"]],
     "Blue House": [["Manya George", "Class X - C"], ["Nakul Bansal", "Class IX - C"], ["Oviya Raman", "Class VIII - C"], ["Pranav Shekar", "Class X - D"], ["Rhea Thomas", "Class IX - D"], ["Siddharth Joshi", "Class VIII - D"]],
     "Green House": [["Tara Mishra", "Class X - A"], ["Utkarsh Nambiar", "Class IX - A"], ["Vanya Chawla", "Class VIII - A"], ["Yogesh Patil", "Class X - B"], ["Zara Fernandes", "Class IX - B"], ["Advik Shenoy", "Class VIII - B"]]
-  },
+  }, */
   "Discipline Captain": {
     "Yellow House": [["Bhargav Menon", "Class X - A"], ["Celine Mathew", "Class X - B"], ["Darshan K", "Class IX - A"], ["Eesha Varma", "Class IX - B"], ["Farid Khan", "Class VIII - A"], ["Gayatri Rao", "Class VIII - B"]],
     "Red House": [["Harshith Gowda", "Class X - C"], ["Ira Mehta", "Class X - D"], ["Jayant Kulal", "Class IX - C"], ["Keisha Jain", "Class IX - D"], ["Lalit Narayan", "Class VIII - C"], ["Mitali Sen", "Class VIII - D"]],
@@ -110,7 +110,7 @@ prevBtn.addEventListener("click", function () {
 nextBtn.addEventListener("click", function () {
   const selected = getVisibleSelection(postCards[currentSlide]);
   if (!selected) {
-    showMessage("Please select one candidate or NOTA before moving to the next post.", true);
+    showMessage("Please select one candidate before moving to the next post.", true);
     return;
   }
   goToSlide(currentSlide + 1);
@@ -138,7 +138,7 @@ voteForm.addEventListener("submit", function (event) {
 
   if (missingPost) {
     goToSlide(postCards.indexOf(missingPost));
-    showMessage("Please vote for this post or choose NOTA before submitting.", true);
+    showMessage("Please vote for this post before submitting.", true);
     return;
   }
 
@@ -211,7 +211,7 @@ function renderGeneratedHousePosts() {
         grid.appendChild(createCandidateCard(postName, houseName, candidate[0], candidate[1]));
       });
 
-      grid.appendChild(createNotaCard(postName, houseName));
+      //grid.appendChild(createNotaCard(postName, houseName));
       card.appendChild(grid);
     });
   });
