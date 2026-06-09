@@ -171,6 +171,10 @@ function getResults_() {
       return;
     }
 
+    if (!isActiveResultSheet_(sheet.getName())) {
+      return;
+    }
+
     const totalRowIndex = values.findIndex(function (row, index) {
       return index > 0 && row[0] === "Total";
     });
@@ -216,4 +220,12 @@ function getResults_() {
     generatedAt: new Date().toISOString(),
     results: results
   };
+}
+
+function isActiveResultSheet_(sheetName) {
+  if (sheetName === "Head Boy" || sheetName === "Head Girl") {
+    return true;
+  }
+
+  return /^(Yellow House|Red House|Blue House|Green House) - /.test(sheetName);
 } 
