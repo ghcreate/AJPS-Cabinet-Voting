@@ -150,4 +150,4 @@ function scheduleNextRefresh() {
   refreshTimer = setTimeout(loadResults, REFRESH_INTERVAL_MS);
 }
 
-loadResults();     
+loadResults();       
