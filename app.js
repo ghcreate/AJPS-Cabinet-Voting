@@ -1,4 +1,4 @@
-const GOOGLE_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwXhJv-46jo5Ys5wSr69eQEgI21etHOpJ-9BAtplKnMtvMQfEjlwZi03xv7XFBPdA5V/exec";
+const GOOGLE_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx_-3GLmfMaFMI5b0D2QDh6Tt9NlAzrqguyj-FczKC7XBiD1mCN_arpP-wHmAlS_3UkjQ/exec";
 
 const housePage = document.querySelector("#housePage");
 const votingPage = document.querySelector("#votingPage");
