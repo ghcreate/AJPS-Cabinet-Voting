@@ -1,5 +1,6 @@
 const RESULTS_URL = "https://script.google.com/macros/s/AKfycbx_-3GLmfMaFMI5b0D2QDh6Tt9NlAzrqguyj-FczKC7XBiD1mCN_arpP-wHmAlS_3UkjQ/exec";
 const REFRESH_INTERVAL_MS = 15000;
+const REQUEST_TIMEOUT_MS = 30000;
 
 const resultsGrid = document.querySelector("#resultsGrid");
 const adminStatus = document.querySelector("#adminStatus");
@@ -13,50 +14,89 @@ refreshBtn.addEventListener("click", function () {
 });
 
 function loadResults() {
-  callbackCounter += 1;
-  const callbackName = "handleVotingResults" + callbackCounter;
-  const script = document.createElement("script");
-  let didFinish = false;
-  const timeoutId = setTimeout(function () {
-    if (didFinish) {
-      return;
-    }
-
-    didFinish = true;
-    adminStatus.textContent = "Results are not available. Redeploy Code.gs as a new Apps Script web app version.";
-    cleanupJsonp(script, callbackName);
-    refreshBtn.disabled = false;
-  }, 8000);
-
+  clearTimeout(refreshTimer);
   adminStatus.textContent = "Refreshing result...";
   refreshBtn.disabled = true;
 
-  window[callbackName] = function (data) {
-    if (didFinish) {
-      return;
-    }
+  loadResultsWithFetch()
+    .catch(function () {
+      return loadResultsWithJsonp();
+    })
+    .then(function (data) {
+      renderResults(data);
+    })
+    .catch(function (error) {
+      adminStatus.textContent = "Could not load results: " + error.message;
+    })
+    .finally(function () {
+      refreshBtn.disabled = false;
+    });
+}
 
-    didFinish = true;
-    clearTimeout(timeoutId);
-    renderResults(data);
-    cleanupJsonp(script, callbackName);
-    refreshBtn.disabled = false;
-  };
+function loadResultsWithFetch() {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(function () {
+    controller.abort();
+  }, REQUEST_TIMEOUT_MS);
 
-  script.onerror = function () {
-    if (didFinish) {
-      return;
-    }
+  return fetch(RESULTS_URL + "?action=results&t=" + Date.now(), {
+    method: "GET",
+    cache: "no-store",
+    signal: controller.signal
+  })
+    .then(function (response) {
+      if (!response.ok) {
+        throw new Error("HTTP " + response.status);
+      }
+      return response.json();
+    })
+    .finally(function () {
+      clearTimeout(timeoutId);
+    });
+}
 
-    didFinish = true;
-    clearTimeout(timeoutId);
-    adminStatus.textContent = "Could not load results. Check Apps Script deployment and permissions.";
-    cleanupJsonp(script, callbackName);
-    refreshBtn.disabled = false;
-  };
+function loadResultsWithJsonp() {
+  callbackCounter += 1;
+  const callbackName = "handleVotingResults" + callbackCounter;
+  const script = document.createElement("script");
 
-  script.src = RESULTS_URL + "?action=results&callback=" + callbackName + "&t=" + Date.now();
-  document.body.appendChild(script);
+  return new Promise(function (resolve, reject) {
+    let didFinish = false;
+    const timeoutId = setTimeout(function () {
+      if (didFinish) {
+        return;
+      }
+
+      didFinish = true;
+      cleanupJsonp(script, callbackName);
+      reject(new Error("request timed out after 30 seconds"));
+    }, REQUEST_TIMEOUT_MS);
+
+    window[callbackName] = function (data) {
+      if (didFinish) {
+        return;
+      }
+
+      didFinish = true;
+      clearTimeout(timeoutId);
+      cleanupJsonp(script, callbackName);
+      resolve(data);
+    };
+
+    script.onerror = function () {
+      if (didFinish) {
+        return;
+      }
+
+      didFinish = true;
+      clearTimeout(timeoutId);
+      cleanupJsonp(script, callbackName);
+      reject(new Error("script request failed"));
+    };
+
+    script.src = RESULTS_URL + "?action=results&callback=" + callbackName + "&t=" + Date.now();
+    document.body.appendChild(script);
+  });
 }
 
 function renderResults(data) {
@@ -150,4 +190,4 @@ function scheduleNextRefresh() {
   refreshTimer = setTimeout(loadResults, REFRESH_INTERVAL_MS);
 }
 
-loadResults();    
+loadResults(); 
