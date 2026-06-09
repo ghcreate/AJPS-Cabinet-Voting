@@ -77,6 +77,21 @@ body[data-house="green"] {
   align-items: center;
   gap: 18px;
   padding: 22px clamp(16px, 4vw, 42px);
+    /* Set the path to your image file */
+  background-image: url('school.jpg'); 
+  
+  /* Scale the image to completely fill the container */
+  background-size: cover; 
+  
+  /* Center the image horizontally and vertically */
+  background-position: center; 
+  
+  /* Stop the image from tiling/repeating */
+  background-repeat: no-repeat; 
+  
+  /* Ensure the div has size if it lacks text content */
+  /* min-height: 200px;  */
+  width: 100%; 
 }
 
 .school-logo {
@@ -261,6 +276,7 @@ body[data-house="green"] {
 
 .candidate-card {
   position: relative;
+        left: 70px;
   min-height: 214px;
   display: flex;
   flex-direction: column;
