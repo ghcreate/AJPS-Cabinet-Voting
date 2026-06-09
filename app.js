@@ -223,6 +223,7 @@ function createCandidateCard(postName, houseName, candidateName, candidateClass)
   const image = document.createElement("img");
   const name = document.createElement("span");
   const className = document.createElement("span");
+  const logo_image = document.createElement("logo_img");
   const radioName = makeRadioName(postName, houseName);
 
   label.className = "candidate-card";
@@ -235,11 +236,14 @@ function createCandidateCard(postName, houseName, candidateName, candidateClass)
   name.textContent = candidateName;
   className.className = "candidate-class";
   className.textContent = candidateClass;
+  logo_image.src = "images/" + radioName + "-" + slugify(candidateName) + "-logo.jpg";
+  logo_image.alt = candidateName;
 
   label.appendChild(input);
   label.appendChild(image);
   label.appendChild(name);
   label.appendChild(className);
+  label.appendChild(logo_image);
   return label;
 }
 
