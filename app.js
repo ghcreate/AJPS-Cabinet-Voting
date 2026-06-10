@@ -1,6 +1,7 @@
 const GOOGLE_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx_-3GLmfMaFMI5b0D2QDh6Tt9NlAzrqguyj-FczKC7XBiD1mCN_arpP-wHmAlS_3UkjQ/exec";
 
 const housePage = document.querySelector("#housePage");
+const housePanel = document.querySelector(".house-panel");
 const votingPage = document.querySelector("#votingPage");
 const submitFrame = document.querySelector("#submitFrame");
 const houseSubmitBtn = document.querySelector("#houseSubmitBtn");
@@ -14,20 +15,24 @@ const submitBtn = document.querySelector("#submitBtn");
 const slideCounter = document.querySelector("#slideCounter");
 const dotsContainer = document.querySelector("#dots");
 const message = document.querySelector("#message");
+const DESKTOP_CANDIDATE_WIDTH = 140;
+const TABLET_CANDIDATE_WIDTH = 150;
+const CANDIDATE_GAP = 14;
+const POST_CARD_HORIZONTAL_PADDING = 44;
 
 const generatedHousePosts = {
-  /* "Sports Captain": {
+  "Sports Captain": {
     "Yellow House": [["Anvith Rao", "Class X - C"], ["Bhavana Shetty", "Class IX - C"], ["Chirag Naik", "Class VIII - C"], ["Diksha Hegde", "Class X - D"], ["Eshan Kulkarni", "Class IX - D"], ["Faria Joseph", "Class VIII - D"]],
     "Red House": [["Gagan Murthy", "Class X - A"], ["Harini Prabhu", "Class IX - A"], ["Ishaan Thomas", "Class VIII - A"], ["Jasleen Kaur", "Class X - B"], ["Kavin Rao", "Class IX - B"], ["Lekha Suresh", "Class VIII - B"]],
     "Blue House": [["Manas Pai", "Class X - C"], ["Nivedita Roy", "Class IX - C"], ["Ojas Menon", "Class VIII - C"], ["Pavitra Das", "Class X - D"], ["Qadir Ali", "Class IX - D"], ["Ritika Shah", "Class VIII - D"]],
     "Green House": [["Samarjit Nair", "Class X - A"], ["Tanisha Bhat", "Class IX - A"], ["Uday Prakash", "Class VIII - A"], ["Vaidehi Pillai", "Class X - B"], ["Waseem Khan", "Class IX - B"], ["Yamini Reddy", "Class VIII - B"]]
-  }, */
-  /* "Cultural Secretary": {
+  },
+  "Cultural Secretary": {
     "Yellow House": [["Aarohi Desai", "Class X - A"], ["Bhuvika Jain", "Class IX - B"], ["Charan Lal", "Class VIII - C"], ["Devanshi Rao", "Class X - C"], ["Eklavya Sinha", "Class IX - D"], ["Falak Ahmed", "Class VIII - A"]],
     "Red House": [["Garima Kapoor", "Class X - B"], ["Hrishikesh Iyer", "Class IX - A"], ["Ipsita Ghosh", "Class VIII - D"], ["Jatin Verma", "Class X - D"], ["Kashvi Dutta", "Class IX - C"], ["Lakshya Bose", "Class VIII - B"]],
     "Blue House": [["Manya George", "Class X - C"], ["Nakul Bansal", "Class IX - C"], ["Oviya Raman", "Class VIII - C"], ["Pranav Shekar", "Class X - D"], ["Rhea Thomas", "Class IX - D"], ["Siddharth Joshi", "Class VIII - D"]],
     "Green House": [["Tara Mishra", "Class X - A"], ["Utkarsh Nambiar", "Class IX - A"], ["Vanya Chawla", "Class VIII - A"], ["Yogesh Patil", "Class X - B"], ["Zara Fernandes", "Class IX - B"], ["Advik Shenoy", "Class VIII - B"]]
-  }, */
+  },
   "Discipline Captain": {
     "Yellow House": [["Bhargav Menon", "Class X - A"], ["Celine Mathew", "Class X - B"], ["Darshan K", "Class IX - A"], ["Eesha Varma", "Class IX - B"], ["Farid Khan", "Class VIII - A"], ["Gayatri Rao", "Class VIII - B"]],
     "Red House": [["Harshith Gowda", "Class X - C"], ["Ira Mehta", "Class X - D"], ["Jayant Kulal", "Class IX - C"], ["Keisha Jain", "Class IX - D"], ["Lalit Narayan", "Class VIII - C"], ["Mitali Sen", "Class VIII - D"]],
@@ -85,6 +90,13 @@ postCards.forEach(function (_card, index) {
 
 installImageFallbacks();
 
+document.querySelectorAll("input[name='selected_house']").forEach(function (input) {
+  input.addEventListener("change", function () {
+    document.body.dataset.house = input.value.toLowerCase().replace(" house", "");
+    houseMessage.textContent = "";
+  });
+});
+
 houseSubmitBtn.addEventListener("click", function () {
   const selectedInput = document.querySelector("input[name='selected_house']:checked");
 
@@ -110,6 +122,7 @@ prevBtn.addEventListener("click", function () {
 nextBtn.addEventListener("click", function () {
   const selected = getVisibleSelection(postCards[currentSlide]);
   if (!selected) {
+    // showMessage("Please select one candidate or NOTA before moving to the next post.", true);
     showMessage("Please select one candidate before moving to the next post.", true);
     return;
   }
@@ -138,6 +151,7 @@ voteForm.addEventListener("submit", function (event) {
 
   if (missingPost) {
     goToSlide(postCards.indexOf(missingPost));
+    // showMessage("Please vote for this post or choose NOTA before submitting.", true);
     showMessage("Please vote for this post before submitting.", true);
     return;
   }
@@ -211,7 +225,7 @@ function renderGeneratedHousePosts() {
         grid.appendChild(createCandidateCard(postName, houseName, candidate[0], candidate[1]));
       });
 
-      //grid.appendChild(createNotaCard(postName, houseName));
+      // grid.appendChild(createNotaCard(postName, houseName));
       card.appendChild(grid);
     });
   });
@@ -223,54 +237,56 @@ function createCandidateCard(postName, houseName, candidateName, candidateClass)
   const image = document.createElement("img");
   const name = document.createElement("span");
   const className = document.createElement("span");
-  const logo_image = document.createElement("img");
+  const campaignLogo = document.createElement("img");
   const radioName = makeRadioName(postName, houseName);
 
   label.className = "candidate-card";
   input.type = "radio";
   input.name = radioName;
   input.value = candidateName;
+  image.className = "candidate-photo";
   image.src = "images/" + radioName + "-" + slugify(candidateName) + ".jpg";
   image.alt = candidateName;
   name.className = "candidate-name";
   name.textContent = candidateName;
   className.className = "candidate-class";
   className.textContent = candidateClass;
-  logo_image.src = "images/" + radioName + "-" + slugify(candidateName) + "-logo.jpg";
-  logo_image.alt = candidateName;
+  campaignLogo.className = "campaign-logo";
+  campaignLogo.src = "images/" + radioName + "-" + slugify(candidateName) + "-logo.png";
+  campaignLogo.alt = candidateName + " campaign logo";
 
   label.appendChild(input);
   label.appendChild(image);
   label.appendChild(name);
   label.appendChild(className);
-  label.appendChild(logo_image);
+  label.appendChild(campaignLogo);
   return label;
 }
 
-function createNotaCard(postName, houseName) {
-  const label = document.createElement("label");
-  const input = document.createElement("input");
-  const mark = document.createElement("span");
-  const name = document.createElement("span");
-  const className = document.createElement("span");
-
-  label.className = "candidate-card nota-card";
-  input.type = "radio";
-  input.name = makeRadioName(postName, houseName);
-  input.value = "NOTA";
-  mark.className = "nota-mark";
-  mark.textContent = "NOTA";
-  name.className = "candidate-name";
-  name.textContent = "None of the Above";
-  className.className = "candidate-class";
-  className.textContent = "No candidate selected";
-
-  label.appendChild(input);
-  label.appendChild(mark);
-  label.appendChild(name);
-  label.appendChild(className);
-  return label;
-}
+// function createNotaCard(postName, houseName) {
+//   const label = document.createElement("label");
+//   const input = document.createElement("input");
+//   const mark = document.createElement("span");
+//   const name = document.createElement("span");
+//   const className = document.createElement("span");
+//
+//   label.className = "candidate-card nota-card";
+//   input.type = "radio";
+//   input.name = makeRadioName(postName, houseName);
+//   input.value = "NOTA";
+//   mark.className = "nota-mark";
+//   mark.textContent = "NOTA";
+//   name.className = "candidate-name";
+//   name.textContent = "None of the Above";
+//   className.className = "candidate-class";
+//   className.textContent = "No candidate selected";
+//
+//   label.appendChild(input);
+//   label.appendChild(mark);
+//   label.appendChild(name);
+//   label.appendChild(className);
+//   return label;
+// }
 
 function applyHouseSelection() {
   document.querySelectorAll(".candidate-set").forEach(function (set) {
@@ -309,11 +325,14 @@ function getVisibleSelection(card) {
 
 function goToSlide(index) {
   currentSlide = Math.max(0, Math.min(index, postCards.length - 1));
+  updateSliderSize();
   slides.style.transform = "translateX(-" + currentSlide * 100 + "%)";
 
   postCards.forEach(function (card, cardIndex) {
     card.classList.toggle("active", cardIndex === currentSlide);
   });
+
+  votingPage.classList.toggle("house-post-active", postCards[currentSlide].dataset.sharedPost !== "true");
 
   Array.from(dotsContainer.children).forEach(function (dot, dotIndex) {
     dot.classList.toggle("active", dotIndex === currentSlide);
@@ -324,8 +343,29 @@ function goToSlide(index) {
   slideCounter.textContent = "Post " + (currentSlide + 1) + " of " + postCards.length;
 }
 
+function updateSliderSize() {
+  const visibleCandidateCount = Math.max(1, getVisibleInputs(postCards[currentSlide]).length);
+  let visibleColumns = visibleCandidateCount;
+  let cardWidth = DESKTOP_CANDIDATE_WIDTH;
+
+  if (window.innerWidth <= 420) {
+    visibleColumns = 1;
+    voteForm.style.width = "";
+  } else if (window.innerWidth <= 720) {
+    visibleColumns = Math.min(2, visibleCandidateCount);
+    voteForm.style.width = "";
+  } else if (window.innerWidth <= 1100) {
+    visibleColumns = Math.min(4, visibleCandidateCount);
+    cardWidth = TABLET_CANDIDATE_WIDTH;
+  }
+
+  const sliderWidth = (visibleColumns * cardWidth) + ((visibleColumns - 1) * CANDIDATE_GAP) + POST_CARD_HORIZONTAL_PADDING;
+  votingPage.style.setProperty("--visible-candidate-columns", visibleColumns);
+  votingPage.style.setProperty("--slider-window-width", sliderWidth + "px");
+}
+
 function installImageFallbacks() {
-  document.querySelectorAll(".candidate-card img").forEach(function (image) {
+  document.querySelectorAll(".candidate-photo").forEach(function (image) {
     image.addEventListener("error", function () {
       const label = image.closest(".candidate-card");
       const candidateName = label.querySelector(".candidate-name").textContent.trim();
@@ -346,6 +386,19 @@ function installImageFallbacks() {
         "<text x='110' y='206' text-anchor='middle' font-family='Arial' font-size='26' font-weight='700' fill='%23172033'>" +
         initials +
         "</text></svg>";
+
+      image.src = "data:image/svg+xml," + svg;
+    });
+  });
+
+  document.querySelectorAll(".campaign-logo").forEach(function (image) {
+    image.addEventListener("error", function () {
+      const svg =
+        "<svg xmlns='http://www.w3.org/2000/svg' width='180' height='64' viewBox='0 0 180 64'>" +
+        "<rect width='180' height='64' rx='8' fill='%23ffffff'/>" +
+        "<rect x='1' y='1' width='178' height='62' rx='7' fill='none' stroke='%23d6deea' stroke-width='2'/>" +
+        "<text x='90' y='39' text-anchor='middle' font-family='Arial' font-size='18' font-weight='700' fill='%235d687d'>LOGO</text>" +
+        "</svg>";
 
       image.src = "data:image/svg+xml," + svg;
     });
@@ -372,4 +425,8 @@ function slugify(value) {
   return value.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 }
 
-goToSlide(0);      
+goToSlide(0);
+
+window.addEventListener("resize", function () {
+  updateSliderSize();
+});  
