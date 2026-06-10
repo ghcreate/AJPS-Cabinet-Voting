@@ -77,21 +77,6 @@ body[data-house="green"] {
   align-items: center;
   gap: 18px;
   padding: 22px clamp(16px, 4vw, 42px);
-    /* Set the path to your image file */
-  background-image: url('school.jpg'); 
-  
-  /* Scale the image to completely fill the container */
-  background-size: cover; 
-  
-  /* Center the image horizontally and vertically */
-  background-position: center; 
-  
-  /* Stop the image from tiling/repeating */
-  background-repeat: no-repeat; 
-  
-  /* Ensure the div has size if it lacks text content */
-  /* min-height: 200px;  */
-  width: 100%; 
 }
 
 .school-logo {
@@ -127,6 +112,13 @@ body[data-house="green"] {
   border-radius: 8px;
   box-shadow: var(--shadow);
   padding: clamp(20px, 4vw, 34px);
+  transition: background 220ms ease, border-color 220ms ease, color 220ms ease;
+}
+
+body[data-house] .house-panel {
+  background: var(--house-page-bg);
+  border-color: transparent;
+  color: var(--white);
 }
 
 .house-panel h2 {
@@ -134,6 +126,10 @@ body[data-house="green"] {
   text-align: center;
   color: var(--ink);
   font-size: clamp(1.8rem, 4vw, 2.55rem);
+}
+
+body[data-house] .house-panel h2 {
+  color: var(--white);
 }
 
 .house-grid {
@@ -173,8 +169,8 @@ body[data-house="green"] {
 }
 
 .house-card:has(input:checked) {
-  border-color: var(--ink);
-  box-shadow: 0 0 0 5px rgba(23, 32, 51, 0.16), 0 12px 24px rgba(23, 32, 51, 0.14);
+  border-color: var(--white);
+  box-shadow: 0 0 0 5px rgba(255, 255, 255, 0.38), 0 12px 24px rgba(23, 32, 51, 0.14);
 }
 
 .yellow-house {
@@ -201,6 +197,10 @@ body[data-house="green"] {
   font-weight: 800;
 }
 
+body[data-house] .house-message {
+  color: var(--white);
+}
+
 .house-submit {
   width: min(260px, 100%);
   min-height: 52px;
@@ -215,35 +215,55 @@ body[data-house="green"] {
   font-weight: 900;
 }
 
+body[data-house] .house-submit {
+  background: var(--white);
+  color: var(--house-accent);
+}
+
 .frame-slider {
   padding: 24px clamp(12px, 3vw, 32px) 18px;
-  background: var(--house-page-bg, var(--paper));
-  transition: background 220ms ease;
+  background: var(--paper);
 }
 
 .selected-house-strip {
-  max-width: 1240px;
+  width: fit-content;
+  max-width: 100%;
   margin: 0 auto 14px;
   border-left: 6px solid var(--white);
   border-radius: 8px;
-  background: rgba(255, 255, 255, 0.94);
+  background: var(--house-page-bg, var(--school-green));
   box-shadow: 0 8px 18px rgba(23, 32, 51, 0.08);
-  padding: 12px 18px;
-  color: var(--ink);
+  padding: 12px 24px;
+  color: var(--white);
   font-weight: 900;
+  text-align: center;
 }
 
 .slider-shell {
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto;
+  grid-template-columns: auto auto auto;
   align-items: center;
+  justify-content: center;
   gap: 14px;
-  max-width: 1240px;
+  width: fit-content;
+  max-width: 100%;
   margin: 0 auto;
+  border-radius: 8px;
+  padding: 0;
+  transition: background 220ms ease, padding 220ms ease, box-shadow 220ms ease;
+}
+
+.frame-slider.house-post-active .slider-shell {
+  background: var(--house-page-bg);
+  box-shadow: 0 14px 34px rgba(23, 32, 51, 0.16);
+  padding: 16px;
 }
 
 .slider-window {
   overflow: hidden;
+  width: var(--slider-window-width, 954px);
+  max-width: 100%;
+  transition: width 220ms ease;
 }
 
 .slides {
@@ -270,14 +290,14 @@ body[data-house="green"] {
 
 .candidate-grid {
   display: grid;
-  grid-template-columns: repeat(7, minmax(120px, 1fr));
+  grid-template-columns: repeat(var(--visible-candidate-columns, 6), minmax(120px, 140px));
+  justify-content: center;
   gap: 14px;
 }
 
 .candidate-card {
   position: relative;
-        left: 70px;
-  min-height: 214px;
+  min-height: 282px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -310,7 +330,17 @@ body[data-house="green"] {
   background: #f1fbf6;
 }
 
-.candidate-card img {
+.candidate-photo {
+  width: 100%;
+  max-width: 118px;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: linear-gradient(135deg, #dce7f2, #f8e4ab);
+}
+
+.campaign-logo {
   width: 100%;
   max-width: 118px;
   aspect-ratio: 1;
@@ -332,18 +362,18 @@ body[data-house="green"] {
   line-height: 1.25;
 }
 
-.nota-card {
+/* .nota-card {
   background: #fff8ef;
   border-color: #edd5aa;
-}
+} */
 
-.nota-card:has(input:checked) {
+/* .nota-card:has(input:checked) {
   border-color: var(--school-red);
   box-shadow: 0 0 0 4px rgba(180, 35, 24, 0.14);
   background: #fff1ef;
-}
+} */
 
-.nota-mark {
+/* .nota-mark {
   width: 100%;
   max-width: 118px;
   aspect-ratio: 1;
@@ -355,7 +385,7 @@ body[data-house="green"] {
   background: #fffdf8;
   font-size: 1.35rem;
   font-weight: 900;
-}
+} */
 
 .nav-button {
   width: 46px;
@@ -602,7 +632,7 @@ button:focus-visible,
 
 @media (max-width: 1100px) {
   .candidate-grid {
-    grid-template-columns: repeat(4, minmax(130px, 1fr));
+    grid-template-columns: repeat(var(--visible-candidate-columns, 4), minmax(130px, 1fr));
   }
 }
 
@@ -626,6 +656,7 @@ button:focus-visible,
 
   .slider-shell {
     grid-template-columns: 1fr;
+    width: min(520px, 100%);
   }
 
   .nav-button {
@@ -651,11 +682,11 @@ button:focus-visible,
   }
 
   .candidate-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(var(--visible-candidate-columns, 2), minmax(0, 1fr));
   }
 
   .candidate-card {
-    min-height: 190px;
+    min-height: 256px;
   }
 
   .frame-submit {
@@ -695,4 +726,4 @@ button:focus-visible,
   .candidate-grid {
     grid-template-columns: 1fr;
   }
-}   
+}  
