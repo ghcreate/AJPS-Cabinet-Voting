@@ -70,6 +70,7 @@ body[data-house="green"] {
 }
 
 .brand-bar {
+  position: relative;
   width: min(1180px, 100%);
   margin: 0 auto;
   display: grid;
@@ -96,6 +97,25 @@ body[data-house="green"] {
   font-weight: 800;
   letter-spacing: 0;
   text-shadow: 0 3px 14px rgba(0, 0, 0, 0.38);
+}
+
+.theme-toggle {
+  align-self: end;
+  justify-self: end;
+  min-width: 104px;
+  min-height: 38px;
+  border: 1px solid rgba(255, 255, 255, 0.78);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.94);
+  color: #172033;
+  cursor: pointer;
+  font-weight: 900;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.22);
+}
+
+.theme-toggle:hover {
+  background: var(--school-gold);
+  color: #172033;
 }
 
 .house-page {
@@ -630,6 +650,116 @@ button:focus-visible,
   outline-offset: 3px;
 }
 
+html[data-theme="dark"] {
+  --ink: #f4f7fb;
+  --muted: #a8b3c7;
+  --line: #334158;
+  --paper: #0d111a;
+  --focus: #72c8ff;
+  --shadow: 0 16px 42px rgba(0, 0, 0, 0.46);
+}
+
+html[data-theme="dark"] .frame-top {
+  background:
+    linear-gradient(90deg, rgba(4, 10, 18, 0.86), rgba(9, 30, 42, 0.72)),
+    url("school.jpg") center / cover no-repeat;
+}
+
+html[data-theme="dark"] .school-logo {
+  background: rgba(244, 247, 251, 0.94);
+  border-color: rgba(255, 255, 255, 0.72);
+}
+
+html[data-theme="dark"] .theme-toggle {
+  background: #151b27;
+  border-color: #536179;
+  color: #f4f7fb;
+}
+
+html[data-theme="dark"] .theme-toggle:hover {
+  background: #253044;
+  color: #f4f7fb;
+}
+
+html[data-theme="dark"] .house-panel,
+html[data-theme="dark"] .post-card,
+html[data-theme="dark"] .secondary-link,
+html[data-theme="dark"] .result-card {
+  background: #151b27;
+}
+
+html[data-theme="dark"] body[data-house] .house-panel {
+  background: var(--house-page-bg);
+  border-color: transparent;
+  color: var(--white);
+}
+
+html[data-theme="dark"] body[data-house] .house-panel h2,
+html[data-theme="dark"] body[data-house] .house-message {
+  color: var(--white);
+}
+
+html[data-theme="dark"] .house-card {
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.34);
+}
+
+html[data-theme="dark"] .house-card:has(input:checked) {
+  box-shadow: 0 0 0 5px rgba(255, 255, 255, 0.36), 0 14px 28px rgba(0, 0, 0, 0.34);
+}
+
+html[data-theme="dark"] .house-submit,
+html[data-theme="dark"] .nav-button,
+html[data-theme="dark"] .refresh-button {
+  background: #1f9a70;
+}
+
+html[data-theme="dark"] .selected-house-strip {
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.34);
+}
+
+html[data-theme="dark"] .frame-slider.house-post-active .slider-shell {
+  box-shadow: 0 16px 42px rgba(0, 0, 0, 0.38);
+}
+
+html[data-theme="dark"] .candidate-card {
+  background: #1c2433;
+}
+
+html[data-theme="dark"] .candidate-card:hover {
+  border-color: #6f86a6;
+}
+
+html[data-theme="dark"] .candidate-card:has(input:checked) {
+  box-shadow: 0 0 0 4px rgba(114, 200, 255, 0.18);
+  background: #182719;
+}
+
+html[data-theme="dark"] .candidate-photo,
+html[data-theme="dark"] .campaign-logo {
+  background: linear-gradient(135deg, #263349, #3e3520);
+}
+
+html[data-theme="dark"] .dot {
+  background: #536179;
+}
+
+html[data-theme="dark"] .dot.active {
+  background: #1f9a70;
+}
+
+html[data-theme="dark"] .frame-submit {
+  background: #101722;
+}
+
+html[data-theme="dark"] .result-row.leading .result-name,
+html[data-theme="dark"] .result-row.leading .result-total {
+  color: #5ee0aa;
+}
+
+html[data-theme="dark"] .result-bar-track {
+  background: #263349;
+}
+
 @media (max-width: 1100px) {
   .candidate-grid {
     grid-template-columns: repeat(var(--visible-candidate-columns, 4), minmax(130px, 1fr));
@@ -639,6 +769,11 @@ button:focus-visible,
 @media (max-width: 720px) {
   .brand-bar {
     grid-template-columns: 72px 1fr;
+  }
+
+  .theme-toggle {
+    grid-column: 1 / -1;
+    justify-self: stretch;
   }
 
   .school-logo {
