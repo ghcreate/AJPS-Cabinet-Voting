@@ -5,6 +5,13 @@ const REQUEST_TIMEOUT_MS = 30000;
 const resultsGrid = document.querySelector("#resultsGrid");
 const adminStatus = document.querySelector("#adminStatus");
 const refreshBtn = document.querySelector("#refreshBtn");
+const adminLogin = document.querySelector("#adminLogin");
+const adminLoginForm = document.querySelector("#adminLoginForm");
+const adminUserId = document.querySelector("#adminUserId");
+const adminPassword = document.querySelector("#adminPassword");
+const adminLoginMessage = document.querySelector("#adminLoginMessage");
+const ADMIN_USER_ID = "ajps-admin";
+const ADMIN_PASSWORD_HASH = "ab559219225c245a15a61dd777d82ffdfff96de5fead2b524b2e8581b06d5242";
 const SHARED_POST_ORDER = ["Head Boy", "Head Girl"];
 const HOUSE_ORDER = ["Yellow House", "Red House", "Blue House", "Green House"];
 const HOUSE_POST_ORDER = [
@@ -20,12 +27,62 @@ const HOUSE_POST_ORDER = [
 
 let callbackCounter = 0;
 let refreshTimer;
+let isAdminAuthenticated = sessionStorage.getItem("ajpsAdminAuthenticated") === "true";
+
+if (isAdminAuthenticated) {
+  unlockAdmin();
+}
+
+adminLoginForm.addEventListener("submit", function (event) {
+  event.preventDefault();
+  authenticateAdmin();
+});
 
 refreshBtn.addEventListener("click", function () {
   loadResults();
 });
 
+function authenticateAdmin() {
+  const userId = adminUserId.value.trim();
+  const password = adminPassword.value;
+
+  hashText(password)
+    .then(function (passwordHash) {
+      if (userId === ADMIN_USER_ID && passwordHash === ADMIN_PASSWORD_HASH) {
+        sessionStorage.setItem("ajpsAdminAuthenticated", "true");
+        isAdminAuthenticated = true;
+        adminPassword.value = "";
+        adminLoginMessage.textContent = "";
+        unlockAdmin();
+        return;
+      }
+
+      adminLoginMessage.textContent = "Invalid admin credentials.";
+    })
+    .catch(function () {
+      adminLoginMessage.textContent = "Could not verify credentials in this browser.";
+    });
+}
+
+function unlockAdmin() {
+  adminLogin.classList.add("hidden");
+  loadResults();
+}
+
+function hashText(value) {
+  const encoder = new TextEncoder();
+  return crypto.subtle.digest("SHA-256", encoder.encode(value)).then(function (buffer) {
+    return Array.from(new Uint8Array(buffer)).map(function (byte) {
+      return byte.toString(16).padStart(2, "0");
+    }).join("");
+  });
+}
+
 function loadResults() {
+  if (!isAdminAuthenticated) {
+    return;
+  }
+
   clearTimeout(refreshTimer);
   adminStatus.textContent = "Refreshing result...";
   refreshBtn.disabled = true;
@@ -286,6 +343,4 @@ function cleanupJsonp(script, callbackName) {
 function scheduleNextRefresh() {
   clearTimeout(refreshTimer);
   refreshTimer = setTimeout(loadResults, REFRESH_INTERVAL_MS);
-}
-
-loadResults();        
+}        

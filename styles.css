@@ -502,6 +502,64 @@ body[data-house] .house-submit {
   background: var(--paper);
 }
 
+.admin-login {
+  min-height: calc(100vh - 150px);
+  display: grid;
+  place-items: center;
+  padding: 28px clamp(14px, 3vw, 32px);
+}
+
+.admin-login-panel {
+  width: min(420px, 100%);
+  display: grid;
+  gap: 14px;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  padding: 24px;
+}
+
+.admin-login-panel h2 {
+  margin: 0 0 6px;
+  color: var(--school-green);
+  text-align: center;
+}
+
+.admin-login-panel label {
+  display: grid;
+  gap: 7px;
+  color: var(--ink);
+  font-weight: 800;
+}
+
+.admin-login-panel input {
+  min-height: 44px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 0 12px;
+  color: var(--ink);
+  background: var(--white);
+  font: inherit;
+}
+
+#adminLoginMessage {
+  min-height: 22px;
+  margin: 0;
+  color: var(--school-red);
+  font-weight: 800;
+}
+
+.admin-login-button {
+  min-height: 46px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--school-green);
+  color: var(--white);
+  cursor: pointer;
+  font-weight: 900;
+}
+
 .admin-toolbar {
   max-width: 1240px;
   margin: 0 auto;
@@ -771,8 +829,13 @@ html[data-theme="dark"] .theme-toggle:hover {
 html[data-theme="dark"] .house-panel,
 html[data-theme="dark"] .post-card,
 html[data-theme="dark"] .secondary-link,
-html[data-theme="dark"] .result-card {
+html[data-theme="dark"] .result-card,
+html[data-theme="dark"] .admin-login-panel {
   background: #151b27;
+}
+
+html[data-theme="dark"] .admin-login-panel input {
+  background: #1c2433;
 }
 
 html[data-theme="dark"] .house-result-section {
@@ -958,4 +1021,4 @@ html[data-theme="dark"] .result-bar-track {
   .candidate-grid {
     grid-template-columns: 1fr;
   }
-}    
+}  

@@ -16,6 +16,22 @@
       </div>
     </header>
 
+    <section class="admin-login" id="adminLogin" aria-labelledby="adminLoginTitle">
+      <form class="admin-login-panel" id="adminLoginForm">
+        <h2 id="adminLoginTitle">Admin Login</h2>
+        <label>
+          <span>User ID</span>
+          <input type="text" id="adminUserId" value="ajps-admin" autocomplete="username">
+        </label>
+        <label>
+          <span>Password</span>
+          <input type="password" id="adminPassword" autocomplete="current-password">
+        </label>
+        <p id="adminLoginMessage" role="status" aria-live="polite"></p>
+        <button class="admin-login-button" type="submit">Login</button>
+      </form>
+    </section>
+
     <section class="admin-toolbar">
       <div>
         <h2>Live Voting Results</h2>
@@ -31,6 +47,6 @@
   </main>
 
   <script src="theme.js"></script>
-  <script src="admin.js?v=20260611-all-house-posts"></script>
+  <script src="admin.js?v=20260611-admin-login"></script>
 </body>
-</html>       
+</html>     
