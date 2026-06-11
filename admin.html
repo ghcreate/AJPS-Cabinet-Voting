@@ -1,11 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AMARA JYOTHI PUBLIC SCHOOL - Live Voting Results</title>
   <link rel="stylesheet" href="styles.css">
+  <style>
+    body {text-align: center}
+    .toggleContainer {
+      margin: 10px 0;
+    }
+    .error {
+      color: red;
+      margin-top: 10px;
+    }
+  </style>
 </head>
+
 <body>
   <main class="admin-app">
     <header class="frame frame-top">
@@ -16,21 +28,62 @@
       </div>
     </header>
 
-    <section class="admin-toolbar">
-      <div>
-        <h2>Live Voting Results</h2>
-        <p id="adminStatus">Loading current result...</p>
-      </div>
-      <div class="admin-actions">
-        <a class="secondary-link" href="index.html">Back to Voting Page</a>
-        <button class="refresh-button" type="button" id="refreshBtn">Refresh</button>
-      </div>
-    </section>
+    <div id="loginForm">
+      <h2>Enter password to view the page</h2>
+      <input type="password" id="passwordInput" placeholder="Password">
+      <!-- <button class="login-button" type="button" id="loginBtn">Login</button> -->
 
-    <section class="results-grid" id="resultsGrid" aria-live="polite"></section>
+
+      <div class="toggleContainer">
+        <input type="checkbox" id="showPasswordToggle" onclick="togglePasswordVisibility()">
+        <label for="showPasswordToggle">Show Password</label>
+      </div>
+
+      <button onclick="checkPassword()">Submit</button>
+      <p id="errorMessage" class="error" hidden>Incorrect password. Try again.</p>
+    </div>
+
+    <div id="Confidential" hidden>
+      <section class="admin-toolbar">
+        <div>
+          <h2>Live Voting Results</h2>
+          <p id="adminStatus">Loading current result...</p>
+        </div>
+        <div class="admin-actions">
+          <a class="secondary-link" href="index.html">Back to Voting Page</a>
+          <button class="refresh-button" type="button" id="refreshBtn">Refresh</button>
+        </div>
+      </section>
+
+      <section class="results-grid" id="resultsGrid" aria-live="polite"></section>
+    </div>
   </main>
+
+  <script>
+    function togglePasswordVisibility() {
+      const passwordInput = document.getElementById('passwordInput');
+      const showPasswordToggle = document.getElementById('showPasswordToggle');
+      passwordInput.type = showPasswordToggle.checked ? 'text' : 'password';
+    }
+
+    function checkPassword() {
+      const passwordInput = document.getElementById('passwordInput');
+      const errorMessage = document.getElementById('errorMessage');
+      const confidentialSection = document.getElementById('Confidential');
+      const loginForm = document.getElementById('loginForm');
+
+      if (passwordInput.value === 'admin123') {
+        // errorMessage.style.display = 'none';
+        loginForm.style.display = 'none';
+        confidentialSection.hidden = false;
+      } else {
+        errorMessage.style.display = 'block';
+      }
+    }
+  </script>
 
   <script src="theme.js"></script>
   <script src="admin.js?v=20260611-all-house-posts"></script>
 </body>
-</html>       
+
+</html>
