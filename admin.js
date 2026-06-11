@@ -5,6 +5,18 @@ const REQUEST_TIMEOUT_MS = 30000;
 const resultsGrid = document.querySelector("#resultsGrid");
 const adminStatus = document.querySelector("#adminStatus");
 const refreshBtn = document.querySelector("#refreshBtn");
+const SHARED_POST_ORDER = ["Head Boy", "Head Girl"];
+const HOUSE_ORDER = ["Yellow House", "Red House", "Blue House", "Green House"];
+const HOUSE_POST_ORDER = [
+  "Sports Captain",
+  "Cultural Secretary",
+  "Discipline Captain",
+  "Literary Secretary",
+  "House Captain",
+  "House Vice Captain",
+  "House Prefect",
+  "House Secretary"
+];
 
 let callbackCounter = 0;
 let refreshTimer;
@@ -113,13 +125,91 @@ function renderResults(data) {
     return;
   }
 
-  results.forEach(function (post) {
-    resultsGrid.appendChild(createResultCard(post));
-  });
+  renderSharedResults(results);
+  renderHouseResults(results);
 
   const generatedAt = data.generatedAt ? new Date(data.generatedAt) : new Date();
   adminStatus.textContent = "Last updated " + generatedAt.toLocaleString();
   scheduleNextRefresh();
+}
+
+function renderSharedResults(results) {
+  const sharedGrid = document.createElement("section");
+  sharedGrid.className = "shared-results-grid";
+
+  SHARED_POST_ORDER.forEach(function (postName) {
+    const post = findPost(results, postName) || createEmptyPost(postName);
+    sharedGrid.appendChild(createResultCard(post));
+  });
+
+  resultsGrid.appendChild(sharedGrid);
+}
+
+function renderHouseResults(results) {
+  const housesContainer = document.createElement("section");
+  housesContainer.className = "house-results";
+
+  HOUSE_ORDER.forEach(function (houseName) {
+    const houseSection = createHouseSection(houseName, results);
+
+    if (houseSection) {
+      housesContainer.appendChild(houseSection);
+    }
+  });
+
+  if (housesContainer.children.length > 0) {
+    resultsGrid.appendChild(housesContainer);
+  }
+}
+
+function createHouseSection(houseName, results) {
+  const details = document.createElement("details");
+  const summary = document.createElement("summary");
+  const arrow = document.createElement("span");
+  const title = document.createElement("span");
+  const count = document.createElement("strong");
+  const cards = document.createElement("div");
+
+  details.className = "house-result-section " + slugify(houseName);
+  details.open = true;
+  summary.className = "house-result-summary";
+  arrow.className = "house-result-arrow";
+  arrow.textContent = ">";
+  title.textContent = houseName;
+  title.className = "house-result-title";
+  cards.className = "house-result-cards";
+
+  HOUSE_POST_ORDER.forEach(function (postName) {
+    const fullPostName = houseName + " - " + postName;
+    const post = findPost(results, fullPostName) || createEmptyPost(fullPostName);
+    cards.appendChild(createResultCard(post));
+  });
+
+  count.textContent = HOUSE_POST_ORDER.length + " posts";
+  summary.appendChild(arrow);
+  summary.appendChild(title);
+  summary.appendChild(count);
+  details.appendChild(summary);
+  details.appendChild(cards);
+  return details;
+}
+
+function findPost(results, postName) {
+  return results.find(function (post) {
+    return post.postName === postName;
+  });
+}
+
+function createEmptyPost(postName) {
+  return {
+    postName: postName,
+    totalVotes: 0,
+    candidates: []
+  };
+}
+
+function slugify(value) {
+  return value.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 }
 
 function createResultCard(post) {
@@ -144,6 +234,14 @@ function createResultCard(post) {
   header.appendChild(title);
   header.appendChild(count);
   card.appendChild(header);
+
+  if (post.candidates.length === 0) {
+    const empty = document.createElement("p");
+    empty.className = "result-empty";
+    empty.textContent = "No votes recorded yet.";
+    card.appendChild(empty);
+    return card;
+  }
 
   post.candidates.forEach(function (candidate, index) {
     const row = document.createElement("div");
@@ -190,4 +288,4 @@ function scheduleNextRefresh() {
   refreshTimer = setTimeout(loadResults, REFRESH_INTERVAL_MS);
 }
 
-loadResults(); 
+loadResults();        

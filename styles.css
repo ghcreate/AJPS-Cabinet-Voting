@@ -565,6 +565,87 @@ body[data-house] .house-submit {
   margin: 0 auto;
   padding: 12px clamp(14px, 3vw, 32px) 36px;
   display: grid;
+  gap: 22px;
+}
+
+.shared-results-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.house-results {
+  display: grid;
+  gap: 18px;
+}
+
+.house-result-section {
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--white);
+  box-shadow: 0 10px 24px rgba(23, 32, 51, 0.1);
+}
+
+.house-result-summary {
+  min-height: 58px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 18px;
+  color: var(--white);
+  cursor: pointer;
+  font-weight: 900;
+  list-style: none;
+}
+
+.house-result-summary::-webkit-details-marker {
+  display: none;
+}
+
+.house-result-arrow {
+  width: 24px;
+  height: 24px;
+  display: inline-grid;
+  place-items: center;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.18);
+  transition: transform 180ms ease;
+}
+
+.house-result-section[open] .house-result-arrow {
+  transform: rotate(90deg);
+}
+
+.house-result-title {
+  flex: 1;
+  font-size: 1.18rem;
+}
+
+.house-result-summary strong {
+  font-size: 0.95rem;
+}
+
+.house-result-section.yellow-house .house-result-summary {
+  background: #d49a00;
+}
+
+.house-result-section.red-house .house-result-summary {
+  background: #bd2b20;
+}
+
+.house-result-section.blue-house .house-result-summary {
+  background: #1769aa;
+}
+
+.house-result-section.green-house .house-result-summary {
+  background: #178153;
+}
+
+.house-result-cards {
+  padding: 18px;
+  display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 18px;
 }
@@ -602,6 +683,12 @@ body[data-house] .house-submit {
 .result-list {
   display: grid;
   gap: 11px;
+}
+
+.result-empty {
+  margin: 0;
+  color: var(--muted);
+  font-weight: 800;
 }
 
 .result-row {
@@ -686,6 +773,11 @@ html[data-theme="dark"] .post-card,
 html[data-theme="dark"] .secondary-link,
 html[data-theme="dark"] .result-card {
   background: #151b27;
+}
+
+html[data-theme="dark"] .house-result-section {
+  background: #151b27;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.34);
 }
 
 html[data-theme="dark"] body[data-house] .house-panel {
@@ -847,6 +939,11 @@ html[data-theme="dark"] .result-bar-track {
     grid-template-columns: 1fr;
   }
 
+  .shared-results-grid,
+  .house-result-cards {
+    grid-template-columns: 1fr;
+  }
+
   #message {
     min-width: 0;
     text-align: center;
@@ -861,4 +958,4 @@ html[data-theme="dark"] .result-bar-track {
   .candidate-grid {
     grid-template-columns: 1fr;
   }
-}  
+}    
