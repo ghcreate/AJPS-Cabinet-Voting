@@ -1,4 +1,4 @@
-const RESULTS_URL = "https://script.google.com/macros/s/AKfycbx_-3GLmfMaFMI5b0D2QDh6Tt9NlAzrqguyj-FczKC7XBiD1mCN_arpP-wHmAlS_3UkjQ/exec";
+const RESULTS_URL = "https://script.google.com/macros/s/AKfycbwjBfOZ3hPoUlsjR5KcHIaDPm1oJUzkHAfV6RuSHGRhkleSPaucHB123ejft1OokcAADA/exec";
 const REFRESH_INTERVAL_MS = 15000;
 const REQUEST_TIMEOUT_MS = 30000;
 

@@ -1,4 +1,4 @@
-const GOOGLE_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx_-3GLmfMaFMI5b0D2QDh6Tt9NlAzrqguyj-FczKC7XBiD1mCN_arpP-wHmAlS_3UkjQ/exec";
+const GOOGLE_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx_-3GLmfMaFMI5b0D2QDh6Tt9NlAzrqguyj-FczKC7XBiD1mCN_arpP-wHmAlS_3UkjQ/exechttps://script.google.com/macros/s/AKfycbwjBfOZ3hPoUlsjR5KcHIaDPm1oJUzkHAfV6RuSHGRhkleSPaucHB123ejft1OokcAADA/exec";
 
 const housePage = document.querySelector("#housePage");
 const housePanel = document.querySelector(".house-panel");
@@ -19,6 +19,21 @@ const DESKTOP_CANDIDATE_WIDTH = 140;
 const TABLET_CANDIDATE_WIDTH = 150;
 const CANDIDATE_GAP = 14;
 const POST_CARD_HORIZONTAL_PADDING = 44;
+const SHARED_CANDIDATES = {
+  "Head Boy": [["Aarav Nair", "Class X - A"], ["Kabir Sharma", "Class X - C"], ["Rohan Iyer", "Class IX - A"], ["Dev Patel", "Class IX - D"], ["Nikhil Das", "Class VIII - B"], ["Vihaan Rao", "Class VIII - D"]],
+  "Head Girl": [["Diya Menon", "Class X - B"], ["Meera Rao", "Class X - D"], ["Sara Khan", "Class IX - B"], ["Ananya Gupta", "Class IX - C"], ["Ishita Roy", "Class VIII - A"], ["Prisha S", "Class VIII - C"]]
+};
+const HOUSE_ORDER = ["Yellow House", "Red House", "Blue House", "Green House"];
+const HOUSE_POST_ORDER = [
+  "Sports Captain",
+  "Cultural Secretary",
+  "Discipline Captain",
+  "Literary Secretary",
+  "House Captain",
+  "House Vice Captain",
+  "House Prefect",
+  "House Secretary"
+];
 
 const generatedHousePosts = {
   "Sports Captain": {
@@ -74,7 +89,7 @@ const generatedHousePosts = {
 let selectedHouse = "";
 let currentSlide = 0;
 
-renderGeneratedHousePosts();
+renderCandidateRows(buildLocalCandidateRows());
 const postCards = Array.from(document.querySelectorAll(".post-card"));
 
 postCards.forEach(function (_card, index) {
@@ -89,6 +104,10 @@ postCards.forEach(function (_card, index) {
 });
 
 installImageFallbacks();
+
+if (!shouldUseLocalCandidatesOnly()) {
+  loadCandidateRowsFromSheet();
+}
 
 document.querySelectorAll("input[name='selected_house']").forEach(function (input) {
   input.addEventListener("change", function () {
@@ -214,9 +233,87 @@ voteForm.addEventListener("submit", function (event) {
     });
 });
 
-function renderGeneratedHousePosts() {
-  Object.keys(generatedHousePosts).forEach(function (postName) {
+function loadCandidateRowsFromSheet() {
+  fetch(GOOGLE_APPS_SCRIPT_URL + "?action=candidates&t=" + Date.now(), {
+    method: "GET",
+    cache: "no-store"
+  })
+    .then(function (response) {
+      if (!response.ok) {
+        throw new Error("HTTP " + response.status);
+      }
+      return response.json();
+    })
+    .then(function (data) {
+      if (!data || data.status !== "ok" || !Array.isArray(data.posts) || data.posts.length === 0) {
+        throw new Error("Candidate sheet returned no usable rows.");
+      }
+
+      renderCandidateRows(data.posts);
+      installImageFallbacks();
+
+      if (selectedHouse) {
+        applyHouseSelection();
+      }
+
+      goToSlide(currentSlide);
+    })
+    .catch(function () {
+      renderCandidateRows(buildLocalCandidateRows());
+      installImageFallbacks();
+    });
+}
+
+function shouldUseLocalCandidatesOnly() {
+  const params = new URLSearchParams(window.location.search);
+  return params.get("source") === "local" || params.get("candidates") === "local";
+}
+
+function buildLocalCandidateRows() {
+  const rows = [];
+
+  Object.keys(SHARED_CANDIDATES).forEach(function (postName) {
+    rows.push({
+      post: postName,
+      candidates: SHARED_CANDIDATES[postName].map(function (candidate) {
+        return {
+          name: candidate[0],
+          className: candidate[1]
+        };
+      })
+    });
+  });
+
+  HOUSE_ORDER.forEach(function (houseName) {
+    HOUSE_POST_ORDER.forEach(function (postName) {
+      rows.push({
+        post: houseName + " - " + postName,
+        candidates: generatedHousePosts[postName][houseName].map(function (candidate) {
+          return {
+            name: candidate[0],
+            className: candidate[1]
+          };
+        })
+      });
+    });
+  });
+
+  return rows;
+}
+
+function renderCandidateRows(candidateRows) {
+  const rowsByPost = {};
+
+  candidateRows.forEach(function (row) {
+    rowsByPost[row.post] = row.candidates || [];
+  });
+
+  renderSharedPostCandidates("Head Boy", rowsByPost["Head Boy"] || []);
+  renderSharedPostCandidates("Head Girl", rowsByPost["Head Girl"] || []);
+
+  HOUSE_POST_ORDER.forEach(function (postName) {
     const card = document.querySelector(".house-post[data-post-name='" + postName + "']");
+
     if (!card) {
       return;
     }
@@ -225,18 +322,33 @@ function renderGeneratedHousePosts() {
       existingSet.remove();
     });
 
-    Object.keys(generatedHousePosts[postName]).forEach(function (houseName) {
+    HOUSE_ORDER.forEach(function (houseName) {
+      const fullPostName = houseName + " - " + postName;
       const grid = document.createElement("div");
       grid.className = "candidate-grid candidate-set";
       grid.dataset.house = houseName;
 
-      generatedHousePosts[postName][houseName].forEach(function (candidate) {
-        grid.appendChild(createCandidateCard(postName, houseName, candidate[0], candidate[1]));
+      (rowsByPost[fullPostName] || []).forEach(function (candidate) {
+        grid.appendChild(createCandidateCard(postName, houseName, candidate.name, candidate.className));
       });
 
-      // grid.appendChild(createNotaCard(postName, houseName));
       card.appendChild(grid);
     });
+  });
+}
+
+function renderSharedPostCandidates(postName, candidates) {
+  const card = document.querySelector(".post-card[data-post-name='" + postName + "']");
+  const grid = card ? card.querySelector(".candidate-grid") : null;
+
+  if (!grid) {
+    return;
+  }
+
+  grid.innerHTML = "";
+
+  candidates.forEach(function (candidate) {
+    grid.appendChild(createCandidateCard(postName, "", candidate.name, candidate.className));
   });
 }
 
@@ -444,4 +556,4 @@ goToSlide(0);
 
 window.addEventListener("resize", function () {
   updateSliderSize();
-});          
+});   

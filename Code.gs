@@ -47,6 +47,8 @@ function doGet(e) {
 
   if (action === "results") {
     response = getResults_();
+  } else if (action === "candidates") {
+    response = getCandidates_();
   } else {
     response = { status: "ok", message: "Voting web app is deployed." };
   }
@@ -228,4 +230,63 @@ function isActiveResultSheet_(sheetName) {
   }
 
   return /^(Yellow House|Red House|Blue House|Green House) - /.test(sheetName);
-} 
+}
+
+function getCandidates_() {
+  const spreadsheet = SpreadsheetApp.openById(SPREADSHEET_ID);
+  const sheet = spreadsheet.getSheetByName("Candidates");
+
+  if (!sheet) {
+    return {
+      status: "error",
+      message: "Candidates sheet not found.",
+      posts: []
+    };
+  }
+
+  const values = sheet.getDataRange().getValues();
+
+  if (values.length < 2) {
+    return {
+      status: "ok",
+      generatedAt: new Date().toISOString(),
+      posts: []
+    };
+  }
+
+  const posts = [];
+
+  for (let rowIndex = 1; rowIndex < values.length; rowIndex++) {
+    const row = values[rowIndex];
+    const postName = String(row[0] || "").trim();
+
+    if (!postName) {
+      continue;
+    }
+
+    const candidates = [];
+
+    for (let columnIndex = 1; columnIndex < row.length; columnIndex += 2) {
+      const candidateName = String(row[columnIndex] || "").trim();
+      const candidateClass = String(row[columnIndex + 1] || "").trim();
+
+      if (candidateName) {
+        candidates.push({
+          name: candidateName,
+          className: candidateClass
+        });
+      }
+    }
+
+    posts.push({
+      post: postName,
+      candidates: candidates
+    });
+  }
+
+  return {
+    status: "ok",
+    generatedAt: new Date().toISOString(),
+    posts: posts
+  };
+}  
