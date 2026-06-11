@@ -1,4 +1,4 @@
-const GOOGLE_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx_-3GLmfMaFMI5b0D2QDh6Tt9NlAzrqguyj-FczKC7XBiD1mCN_arpP-wHmAlS_3UkjQ/exechttps://script.google.com/macros/s/AKfycbwjBfOZ3hPoUlsjR5KcHIaDPm1oJUzkHAfV6RuSHGRhkleSPaucHB123ejft1OokcAADA/exec";
+const GOOGLE_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwjBfOZ3hPoUlsjR5KcHIaDPm1oJUzkHAfV6RuSHGRhkleSPaucHB123ejft1OokcAADA/exec";
 
 const housePage = document.querySelector("#housePage");
 const housePanel = document.querySelector(".house-panel");
@@ -105,7 +105,7 @@ postCards.forEach(function (_card, index) {
 
 installImageFallbacks();
 
-if (!shouldUseLocalCandidatesOnly()) {
+if (shouldUseSheetCandidates()) {
   loadCandidateRowsFromSheet();
 }
 
@@ -264,9 +264,9 @@ function loadCandidateRowsFromSheet() {
     });
 }
 
-function shouldUseLocalCandidatesOnly() {
+function shouldUseSheetCandidates() {
   const params = new URLSearchParams(window.location.search);
-  return params.get("source") === "local" || params.get("candidates") === "local";
+  return params.get("source") === "sheet" || params.get("candidates") === "sheet";
 }
 
 function buildLocalCandidateRows() {
@@ -556,4 +556,4 @@ goToSlide(0);
 
 window.addEventListener("resize", function () {
   updateSliderSize();
-});   
+});  
