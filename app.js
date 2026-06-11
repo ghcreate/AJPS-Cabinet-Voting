@@ -175,6 +175,15 @@ voteForm.addEventListener("submit", function (event) {
     };
   });
 
+  const missingPayloadPosts = getExpectedSubmittedPostNames().filter(function (postName) {
+    return !payload.posts[postName];
+  });
+
+  if (missingPayloadPosts.length > 0) {
+    showMessage("Vote not submitted. Missing posts: " + missingPayloadPosts.join(", "), true);
+    return;
+  }
+
   submitBtn.disabled = true;
   showMessage("Submitting vote...", false);
 
@@ -309,6 +318,12 @@ function getSubmittedPostName(card) {
   return card.dataset.sharedPost === "true" ? baseName : selectedHouse + " - " + baseName;
 }
 
+function getExpectedSubmittedPostNames() {
+  return postCards.map(function (card) {
+    return getSubmittedPostName(card);
+  });
+}
+
 function getVisibleInputs(card) {
   const visibleSet = card.querySelector(".candidate-set:not(.hidden)");
   const scope = visibleSet || card;
@@ -429,4 +444,4 @@ goToSlide(0);
 
 window.addEventListener("resize", function () {
   updateSliderSize();
-});  
+});          
